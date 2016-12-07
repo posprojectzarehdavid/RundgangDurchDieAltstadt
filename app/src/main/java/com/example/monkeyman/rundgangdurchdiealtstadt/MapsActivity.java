@@ -1,9 +1,9 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
-import android.app.Activity;
-import android.graphics.Camera;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -12,6 +12,16 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -31,8 +41,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         googleMap.setMyLocationEnabled(true);
         LatLng schaerding = new LatLng(48.456754, 13.431395);
         camera = CameraPosition.builder().target(schaerding).zoom(16).build();
-
-        googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
+        markerSetzen(googleMap);
+        //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
+
+
+
+    private void markerSetzen(GoogleMap googleMap) {
+        ArrayList values = getValuesFromCSV();
+        for (int i = 0; i<values.size(); i++){
+            String[]val = (String[]) values.get(i);
+            LatLng ll = new LatLng(Double.parseDouble(val[0]),Double.parseDouble(val[1]));
+            googleMap.addMarker(new MarkerOptions().position(ll).title(val[2]));
+        }
+    }
+
+    private ArrayList getValuesFromCSV() {
+        String line;
+        BufferedReader br;
+        ArrayList al = new ArrayList();
+        try {
+            br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("latlng_values.csv")));
+            while ((line = br.readLine()) != null) {
+                Log.i("hallo",line);
+                String[] values = line.split(";");
+                al.add(values);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return al;
+    }
+
 }
