@@ -3,6 +3,7 @@ package com.example.monkeyman.rundgangdurchdiealtstadt;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,10 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     CameraPosition camera;
+    Dictionary<Marker, Sehenswuerdigkeit> markers;
+    ArrayList<Sehenswuerdigkeit> sehenswFromCSV;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +39,44 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
+        markers = new Dictionary<Marker, Sehenswuerdigkeit>() {
+            @Override
+            public Enumeration<Sehenswuerdigkeit> elements() {
+                return null;
+            }
+
+            @Override
+            public Sehenswuerdigkeit get(Object o) {
+                return null;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return false;
+            }
+
+            @Override
+            public Enumeration<Marker> keys() {
+                return null;
+            }
+
+            @Override
+            public Sehenswuerdigkeit put(Marker marker, Sehenswuerdigkeit sehenswuerdigkeit) {
+                return null;
+            }
+
+            @Override
+            public Sehenswuerdigkeit remove(Object o) {
+                return null;
+            }
+
+            @Override
+            public int size() {
+                return 0;
+            }
+        };
+        sehenswFromCSV = new ArrayList<>();
+
     }
 
     @Override
@@ -44,6 +87,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         camera = CameraPosition.builder().target(schaerding).zoom(16).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
         markerSetzen(googleMap);
+        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+
+                return null;
+            }
+        });
         //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
 
@@ -54,8 +109,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int i = 0; i<values.size(); i++){
             String[]val = (String[]) values.get(i);
             LatLng ll = new LatLng(Double.parseDouble(val[0]),Double.parseDouble(val[1]));
-            googleMap.addMarker(new MarkerOptions().position(ll).title(val[2]));
+            markers.put(googleMap.addMarker(new MarkerOptions().position(ll).title(val[2])), );
         }
+
     }
 
     private ArrayList getValuesFromCSV() {
@@ -67,6 +123,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             while ((line = br.readLine()) != null) {
                 Log.i("hallo",line);
                 String[] values = line.split(";");
+
                 al.add(values);
             }
         } catch (FileNotFoundException e) {
