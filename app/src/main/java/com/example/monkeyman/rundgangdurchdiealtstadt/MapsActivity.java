@@ -50,24 +50,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void markerSetzen(GoogleMap googleMap) {
-        ArrayList values = getValuesFromCSV();
+        ArrayList<Sehenswuerdigkeit> values = getValuesFromCSV();
         for (int i = 0; i<values.size(); i++){
-            String[]val = (String[]) values.get(i);
-            LatLng ll = new LatLng(Double.parseDouble(val[0]),Double.parseDouble(val[1]));
-            googleMap.addMarker(new MarkerOptions().position(ll).title(val[2]));
+            googleMap.addMarker(new MarkerOptions().position(values.get(i).getLatLng())
+                    .title(values.get(i).getNameDeutsch()));
         }
     }
 
     private ArrayList getValuesFromCSV() {
         String line;
         BufferedReader br;
-        ArrayList al = new ArrayList();
+        int id = 1;
+        ArrayList<Sehenswuerdigkeit> al = new ArrayList<>();
         try {
             br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("latlng_values.csv")));
             while ((line = br.readLine()) != null) {
-                Log.i("hallo",line);
                 String[] values = line.split(";");
-                al.add(values);
+                LatLng ll = new LatLng(Double.parseDouble(values[0]),Double.parseDouble(values[1]));
+                Sehenswuerdigkeit s = new Sehenswuerdigkeit(id, values[2], values[3],ll);
+                al.add(s);
+                id++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
