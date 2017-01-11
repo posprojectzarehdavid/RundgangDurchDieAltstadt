@@ -1,5 +1,6 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,7 +96,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public View getInfoContents(Marker marker) {
-
+                Sehenswuerdigkeit se = markers.get(marker);
+                Intent intent = new Intent(getApplicationContext(), Details.class);
+                intent.putExtra("Sehenswuerdigkeit",  se);
+                startActivity(intent);
                 return null;
             }
         });
@@ -109,7 +113,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for (int i = 0; i<values.size(); i++){
             String[]val = (String[]) values.get(i);
             LatLng ll = new LatLng(Double.parseDouble(val[0]),Double.parseDouble(val[1]));
-            markers.put(googleMap.addMarker(new MarkerOptions().position(ll).title(val[2])), );
         }
 
     }
