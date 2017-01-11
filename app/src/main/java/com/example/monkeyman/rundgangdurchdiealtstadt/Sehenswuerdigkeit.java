@@ -1,22 +1,23 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.Serializable;
+
 /**
  * Created by MonkeyMan on 14.12.2016.
  */
-public class Sehenswuerdigkeit {
+public class Sehenswuerdigkeit implements Serializable{
     int id;
-    String name;
-    double latitude, longitude;
+    String nameDeutsch, nameEnglisch;
+    LatLng latLng;
     String beschreibungDeutsch, beschreibungEnglisch;
 
-    public Sehenswuerdigkeit(int id, String name, double latitude, double longitude,
-                             String beschreibungDeutsch, String beschreibungEnglisch) {
+    public Sehenswuerdigkeit(int id, String nameDeutsch, String nameEnglisch, LatLng latLng) {
         this.id = id;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.beschreibungDeutsch = beschreibungDeutsch;
-        this.beschreibungEnglisch = beschreibungEnglisch;
+        this.nameDeutsch = nameDeutsch;
+        this.nameEnglisch = nameEnglisch;
+        this.latLng = latLng;
     }
 
     public int getId() {
@@ -27,28 +28,28 @@ public class Sehenswuerdigkeit {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNameDeutsch() {
+        return nameDeutsch;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameDeutsch(String nameDeutsch) {
+        this.nameDeutsch = nameDeutsch;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public String getNameEnglisch() {
+        return nameEnglisch;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setNameEnglisch(String nameEnglisch) {
+        this.nameEnglisch = nameEnglisch;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public LatLng getLatLng() {
+        return latLng;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     public String getBeschreibungDeutsch() {
@@ -65,10 +66,5 @@ public class Sehenswuerdigkeit {
 
     public void setBeschreibungEnglisch(String beschreibungEnglisch) {
         this.beschreibungEnglisch = beschreibungEnglisch;
-    }
-
-    @Override
-    public String toString() {
-        return "Sehenswuerdigkeit: "+name;
     }
 }

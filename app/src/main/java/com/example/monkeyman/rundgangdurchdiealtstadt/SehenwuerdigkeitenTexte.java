@@ -1,16 +1,22 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import java.util.ArrayList;
+
 /**
  * Created by David A on 14.12.2016.
  */
 public class SehenwuerdigkeitenTexte {
-    public final String CHRISOPHERUS_BRUNNEN = "Geschaffen 1963 von Prof. Hans Wimmer, München. Das große\n" +
+    ArrayList<String>deutscheTexte = new ArrayList<>();
+    ArrayList<String>englischeTexte = new ArrayList<>();
+
+    public final String Christophorusbrunnen_d = "Geschaffen 1963 von Prof. Hans Wimmer, München. Das große\n" +
             "Becken symbolisiert den Wasserreichtum Schärdings, die Schifffahrt,\n" +
             "den elektrischen Strom der Innkraftwerke und die Kalt- und Warmwasserkuren,\n" +
             "aber auch die Hochwassergefahr,\n" +
             "der die Stadt immer\n" +
-            "wieder ausgesetzt ist.\n" +
-            "Created in 1963 by Prof. Hans Wimmer of Munich, this fountain symbolizes\n" +
+            "wieder ausgesetzt ist.\n";
+
+    public final String Christophorusbrunnen_e = "Created in 1963 by Prof. Hans Wimmer of Munich, this fountain symbolizes\n" +
             "just how important water still is to the town of Schärding. And\n" +
             "not just the health-giving waters of its springs or even the navigable\n" +
             "waters of the Inn - which these days are used for power generation too.\n" +
