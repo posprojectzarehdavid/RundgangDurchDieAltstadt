@@ -117,14 +117,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList getValuesFromCSV() {
         String line;
         BufferedReader br;
-        ArrayList al = new ArrayList();
+        int i = 1;
         try {
             br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("latlng_values.csv")));
             while ((line = br.readLine()) != null) {
                 Log.i("hallo",line);
                 String[] values = line.split(";");
 
-                al.add(values);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
