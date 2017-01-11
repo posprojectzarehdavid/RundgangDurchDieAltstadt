@@ -32,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     CameraPosition camera;
     Dictionary<Marker, Sehenswuerdigkeit> markers;
     ArrayList<Sehenswuerdigkeit> sehenswFromCSV;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,11 +106,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void markerSetzen(GoogleMap googleMap) {
-        ArrayList values = getValuesFromCSV();
+        ArrayList<Sehenswuerdigkeit> values = getValuesFromCSV();
         for (int i = 0; i<values.size(); i++){
-            String[]val = (String[]) values.get(i);
-            LatLng ll = new LatLng(Double.parseDouble(val[0]),Double.parseDouble(val[1]));
-            markers.put(googleMap.addMarker(new MarkerOptions().position(ll).title(val[2])), );
+            Sehenswuerdigkeit s = values.get(i);
+            Marker m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+            markers.put(m, s);
         }
 
     }
@@ -117,15 +118,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ArrayList getValuesFromCSV() {
         String line;
         BufferedReader br;
-        int i = 1;
-        ArrayList al = new ArrayList();
+        int id = 1;
+        ArrayList<Sehenswuerdigkeit> al = new ArrayList();
         try {
             br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("latlng_values.csv")));
             while ((line = br.readLine()) != null) {
-                Log.i("hallo",line);
                 String[] values = line.split(";");
-
-                al.add(values);
+                LatLng ll = new LatLng(Double.parseDouble(values[0]),Double.parseDouble(values[1]));
+                Sehenswuerdigkeit s = new Sehenswuerdigkeit(id, values[2], values[3], ll);
+                al.add(s);
+                id++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
