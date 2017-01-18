@@ -1,13 +1,23 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
  * Created by David A on 14.12.2016.
  */
 public class SehenwuerdigkeitenTexte {
-    ArrayList<String>deutscheTexte = new ArrayList<>();
-    ArrayList<String>englischeTexte = new ArrayList<>();
+    public static ArrayList<String>deutscheTexte = new ArrayList<>();
+    public static ArrayList<String>englischeTexte = new ArrayList<>();
+
+    public static void InitLists(){
+        Field[] fields = Sehenswuerdigkeit.class.getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            if(fields[i].getName().endsWith("_d")) deutscheTexte.add(fields[i].toString());
+            else if(fields[i].getName().endsWith("_e")) englischeTexte.add(fields[i].toString());
+
+        }
+    }
 
     public final String Christophorusbrunnen_d = "Geschaffen 1963 von Prof. Hans Wimmer, München. Das große\n" +
             "Becken symbolisiert den Wasserreichtum Schärdings, die Schifffahrt,\n" +
@@ -23,35 +33,41 @@ public class SehenwuerdigkeitenTexte {
             "The fountain also reminds us of the ever present danger of flooding,\n" +
             "should the Inn burst its banks.";
 
-    public final String SILBERZEILE = "Nord-Ost-Seite des Oberen Stadtplatzes, wahrscheinlich so genannt\n" +
+    public final String SILBERZEILE_d = "Nord-Ost-Seite des Oberen Stadtplatzes, wahrscheinlich so genannt\n" +
             "wegen der reichen Kaufleute, die einst hier ihren Sitz hatten, als der\n" +
             "Inn noch eine bedeutende Handelsstraße war. Die bunten Fassaden\n" +
             "mit pastellfarbenen Farbtönen gehen auf die mittelalterlichen\n" +
             "Zunftfarben\n" +
             "zurück, die einzelnen Zünften zugeordnet\n" +
             "waren (zB. Bäcker\n" +
-            "blau, Metzger rot, Gastwirte gelb u. grün).\n" +
-            "The north-east side of the Upper Place is thought to owe its name -\n" +
+            "blau, Metzger rot, Gastwirte gelb u. grün).\n";
+
+    public final String SILBERZEILE_e = "The north-east side of the Upper Place is thought to owe its name -\n" +
             "which means „silver row“ - to the rich merchants who lived there in the\n" +
             "days when the Inn was an important trade route. The colorful facades\n" +
             "with their pastel shades go right back to the medieval guild colors that\n" +
             "were attributed to the various trades (e.g. blue for bakers, red for butchers\n" +
             "and yellow and green for innkeepers).";
 
-    public final String LINZER_TOR = "Ehemaliger Oberer Stadtturm, der vom Türmer bewohnt wurde.\n" +
-            "Ein Doppeltor am Beginn der Linzer Straße.\n" +
+    public final String LINZER_TOR_d = "Ehemaliger Oberer Stadtturm, der vom Türmer bewohnt wurde.\n" +
+            "Ein Doppeltor am Beginn der Linzer Straße.";
+            ;
+
+    public final String LINZER_TOR_e =
             "Formerly the gateway to the upper town and home to the town‘s\n" +
             "watchmen, this double-arched gate now marks the beginning of the\n" +
             "Linzer Straße.";
 
-    public final String SPARKASSE = "War ursprünglich das Rathaus, dann städtische Getreideschranne\n" +
+    public final String SPARKASSE_d = "War ursprünglich das Rathaus, dann städtische Getreideschranne\n" +
             "und Stadtfron, 1809 abgebrannt, ab 1824 in Privatbesitz und in der\n" +
             "heutigen Form errichtet. Städtebaulich fungiert das Gebäude\n" +
             "als Trennung\n" +
             "zwischen dem Oberen und dem Unteren Stadtplatz.\n" +
             "Das Fresko\n" +
             "(eine Frau mit einer Sparkasse, darunter ein tanzendes Innviertler Paar)\n" +
-            "stammt von Prof. Fritz Fröhlich (Linz, 1952).\n" +
+            "stammt von Prof. Fritz Fröhlich (Linz, 1952).\n";
+
+    public final String SPARKASSE_e =
             "This was where the town hall once stood, although by the time it burned\n" +
             "down in 1809, it had already been converted into a granary. The\n" +
             "property passed into private hands in 1824, when it was rebuilt in\n" +
@@ -60,7 +76,7 @@ public class SehenwuerdigkeitenTexte {
             "on account of a fresco\n" +
             "painted by Prof. Fritz Fröhlich of Linz in 1952.";
 
-    public final String STADT_PFARRKIRCHE = "An die Zeit des ersten Kirchenbaues um 1307 erinnert die Torhalle, die\n" +
+    public final String STADT_PFARRKIRCHE_d = "An die Zeit des ersten Kirchenbaues um 1307 erinnert die Torhalle, die\n" +
             "man durch das Turmportal betritt. 1703 wurde die gotische Pfarrkirche\n" +
             "St. Georg im Zuge des Spanischen Erbfolgekrieges schwer beschädigt\n" +
             "und um 1725 vom Passauer Dombaumeister Jakob Pawagner im Barock\n" +
@@ -68,7 +84,9 @@ public class SehenwuerdigkeitenTexte {
             "fertig. Durch die französische Beschießung\n" +
             "1809 brannte sie aus und\n" +
             "wurde 1814 wieder hergestellt. Umfassende Innenrenovierung seit\n" +
-            "1975.\n" +
+            "1975.\n";
+
+    public final String STADT_PFARRKIRCHE_e =
             "The first church on this site was erected in 1307, but all that remains of\n" +
             "it now is the vestibule entered through the tower portal. In 1725, having\n" +
             "been severely damaged during the War of the Spanish Succession\n" +
