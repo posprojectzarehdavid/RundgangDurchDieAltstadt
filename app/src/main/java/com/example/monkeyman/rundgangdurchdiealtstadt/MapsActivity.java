@@ -1,5 +1,6 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,11 +27,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
+import java.util.HashMap;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
 
     CameraPosition camera;
-    Dictionary<Marker, Sehenswuerdigkeit> markers;
+    HashMap<Marker, Sehenswuerdigkeit> markers;
     ArrayList<Sehenswuerdigkeit> sehenswFromCSV;
 
     @Override
@@ -40,42 +42,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
-        markers = new Dictionary<Marker, Sehenswuerdigkeit>() {
-            @Override
-            public Enumeration<Sehenswuerdigkeit> elements() {
-                return null;
-            }
-
-            @Override
-            public Sehenswuerdigkeit get(Object o) {
-                return null;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public Enumeration<Marker> keys() {
-                return null;
-            }
-
-            @Override
-            public Sehenswuerdigkeit put(Marker marker, Sehenswuerdigkeit sehenswuerdigkeit) {
-                return null;
-            }
-
-            @Override
-            public Sehenswuerdigkeit remove(Object o) {
-                return null;
-            }
-
-            @Override
-            public int size() {
-                return 0;
-            }
-        };
+        markers = new HashMap<>();
         sehenswFromCSV = new ArrayList<>();
 
     }
@@ -88,18 +55,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         camera = CameraPosition.builder().target(schaerding).zoom(16).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camera));
         markerSetzen(googleMap);
-        googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Override
-            public View getInfoWindow(Marker marker) {
-                return null;
-            }
+        if(googleMap != null){
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Sehenswuerdigkeit se = markers.get(marker);
+                    Intent intent = new Intent(getApplicationContext(), Details.class);
+                    intent.putExtra("Sehenswuerdigkeit", se);
+                    startActivity(intent);
+                }
+            });
+        }
 
-            @Override
-            public View getInfoContents(Marker marker) {
-
-                return null;
-            }
-        });
         //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
 
@@ -136,5 +103,4 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return al;
     }
-
 }
