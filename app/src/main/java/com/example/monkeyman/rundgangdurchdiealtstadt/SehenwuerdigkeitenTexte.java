@@ -96,13 +96,14 @@ public class SehenwuerdigkeitenTexte {
             "a French artillery attack in 1809, was once again rebuilt just five years\n" +
             "later. The interior was renovated in 1975.";
 
-    public final String EHEMALIGES_SPITAL = "Als Stiftung mit dem ehemaligen Bürgerspital 1498 vollendet und\n" +
+    public final String EHEMALIGES_SPITAL_d = "Als Stiftung mit dem ehemaligen Bürgerspital 1498 vollendet und\n" +
             "1809 völlig ausgebrannt. Später als Hufschmiede verwendet. 1961 restauriert,\n" +
             "beherbergt jetzt ein Hotel. Das Portal mit reichprofiliertem\n" +
             "Rotmarmorgewände und dem Relief im Bogenfeld ist als Meisterwerk\n" +
             "spätgotischer Steinbildhauerarbeit\n" +
             "das wertvollste gotische Bauwerk\n" +
-            "der Stadt.\n" +
+            "der Stadt.\n";
+    public final String EHEMALIGES_SPITAL_e =
             "Originally built for the former Bürgerspital in 1498, this church was also\n" +
             "destroyed in 1809 and in the years thereafter was used as a blacksmith‘s\n" +
             "shop. Having been extensively restored in 1961, it now houses a hotel.\n" +
@@ -110,42 +111,48 @@ public class SehenwuerdigkeitenTexte {
             "the arch is a masterpiece of Late Gothic stonemasonry and Schärding‘s\n" +
             "best example of Gothic architecture.";
 
-    public final String GEORG_WIENINGER_STRASSE = "Georg Wieninger (1859-1925), Brauerei- und Realitätenbesitzer,\n" +
+    public final String GEORG_WIENINGER_STRASSE_d = "Georg Wieninger (1859-1925), Brauerei- und Realitätenbesitzer,\n" +
             "wirkte bahnbrechend für die Entwicklung der heimischen Landwirtschaft,\n" +
             "Gründer der ersten Teebutter-Verkaufsgenossenschaft,\n" +
             "später\n" +
-            "„Schärdinger Molkereiverband“.\n" +
+            "„Schärdinger Molkereiverband“.\n";
+    public final String GEORG_WIENINGER_STRASSE_e =
             "As a landowner and proprietor of one of the local breweries, Georg\n" +
             "Wieninger (1859-1925) was a pioneer of local agriculture. It was he\n" +
             "who founded the first butter vending cooperative that would later become\n" +
             "Schärdinger Associated Dairies.";
 
-    public final String PASSAUER_TOR = "Auch Allerheiligentor genannt, hatte ursprünglich einen gotischen\n" +
-            "Spitzturm, wurde 1984 umgestaltet.\n" +
+
+    public final String PASSAUER_TOR_d = "Auch Allerheiligentor genannt, hatte ursprünglich einen gotischen\n" +
+            "Spitzturm, wurde 1984 umgestaltet.\n";
+    public final String PASSAUER_TOR_e =
             "Also known as All Saints‘ Gate, this gate originally had a Gothic spire\n" +
             "that was removed in 1984.";
 
-    public final String LEONHARD_KAISER_DENKMAL = "Leonhard Kaiser, ca. 1480 in Raab geboren, war katholischer Priester.\n" +
+    public final String LEONHARD_KAISER_DENKMAL_d = "Leonhard Kaiser, ca. 1480 in Raab geboren, war katholischer Priester.\n" +
             "Trotz Verbots predigte Kaiser als Anhänger Luthers die reformatorischen\n" +
             "Ideen im Innviertel. Da er nicht widerrufen wollte, wurde er am\n" +
-            "16.8.1527 an dieser Stelle (damals „am Sand“) als Ketzer verbrannt.\n" +
+            "16.8.1527 an dieser Stelle (damals „am Sand“) als Ketzer verbrannt.\n";
+    public final String LEONHARD_KAISER_DENKMAL_e =
             "Born in 1480 Leonhard Kaiser was a Catholic priest who became a\n" +
             "follower of Luther. He was not allowed by the Church to communicate\n" +
             "Luther’s ideas to the inhabitantsof our region. When he refused to renounce\n" +
             "Luther’s religions philosophy he was burnt at the stoke as a\n" +
             "heretic in 1527.";
 
-    public final String SCHIFFSANLEGESTELLE = "Start der beliebten Innschifffahrt durch das wildromantische Untere\n" +
-            "Inntal zwischen Schärding und Passau/Ingling.\n" +
+    public final String SCHIFFSANLEGESTELLE_d = "Start der beliebten Innschifffahrt durch das wildromantische Untere\n" +
+            "Inntal zwischen Schärding und Passau/Ingling.\n";
+    public final String SCHIFFSANLEGESTELLE_e =
             "From here, you can take a boat trip along the wildly romantic Inn valley\n" +
             "as far as Passau/Ingling.";
 
-    public final String GOETZTURM = "Benannt nach Ludwig Götz, der 1844 den Turm kaufte und zum Wohnhaus\n" +
-            "umbaute; heute wieder im Besitz der Stadtgemeinde.\n" +
+    public final String GOETZTURM_d = "Benannt nach Ludwig Götz, der 1844 den Turm kaufte und zum Wohnhaus\n" +
+            "umbaute; heute wieder im Besitz der Stadtgemeinde.\n";
+    public final String GOETZTURM_e =
             "This tower is named after Ludwig Götz, who bought it in 1844 and\n" +
             "converted it into a private dwelling. It now belongs to the town.";
 
-    public final String BURG_MODELL = "Die Zeichnung von Johann Lamprecht (1816 – 1895) links gibt einen\n" +
+    public final String BURG_MODELL_d = "Die Zeichnung von Johann Lamprecht (1816 – 1895) links gibt einen\n" +
             "Eindruck von der gewaltigen früheren Burganlage, die von den bayerischen\n" +
             "Herzögen Albrecht I. und Ludwig VII., dem Gebarteten, im 14.\n" +
             "und 15. Jahrhundert zu einer bedeutenden Landesfestung ausgebaut\n" +
@@ -168,7 +175,10 @@ public class SehenwuerdigkeitenTexte {
             "Burgknecht gerettet werden. Zum Dank für die Rettung, die\n" +
             "auch auf die Hilfe der Gottesmutter Maria zurückgeführt wurde, hat\n" +
             "man ein Bild angefertigt, das den Brunnen in seinem Originalzustand\n" +
-            "zeigt.\n" +
+            "zeigt.\n";
+
+
+    public final String BURG_MODELL_e =
             "The drawing by Johann Lamprecht (1816 – 1895) on the left-hand side gives the\n" +
             "viewer an idea of the sheer vastness and enormity of this former castle complex\n" +
             "which was developed into an important state fortress by the Bavarian dukes Albrecht\n" +
@@ -191,7 +201,7 @@ public class SehenwuerdigkeitenTexte {
             "intervention by the Blessed Virgin Mary, a picture was commissioned which\n" +
             "shows the well in its original condition.";
 
-    public final String WASSERTOR = "Früher Inntor oder Zollturm genannt, bis 1570 herzoglich-bayerisches\n" +
+    public final String WASSERTOR_d = "Früher Inntor oder Zollturm genannt, bis 1570 herzoglich-bayerisches\n" +
             "Landeseigentum, anschließend im Besitz der Stadt, seit 1819 privat;\n" +
             "stadtseitig schließt das Tor mit einer geraden Wandfläche ab, auf der\n" +
             "ein Fresko an die Beschießung der Stadt durch die dänischen und österreichischen\n" +
@@ -200,7 +210,8 @@ public class SehenwuerdigkeitenTexte {
             "berichten von den Überschwemmungskatastrophen.\n" +
             "Der quergesetzte Söller oberhalb des Bogens diente als\n" +
             "Pranger, wo Verurteilte zur Schau gestellt wurden. Beherbergt heute\n" +
-            "ein Restaurant und Museumsräumlichkeiten.\n" +
+            "ein Restaurant und Museumsräumlichkeiten.\n";
+    public final String WASSERTOR_e =
             "Until 1570, the gate that used to be called the Inn Gate or Customs\n" +
             "Tower belonged to the Dukes of Bavaria. It then fell to the town before\n" +
             "passing into private hands in 1819. The town side of the tower\n" +
@@ -211,27 +222,31 @@ public class SehenwuerdigkeitenTexte {
             "arch was originally used to pillory convicted criminals. It now houses a\n" +
             "restaurant and a museum.";
 
-    public final String KLOSTER_NEUHAUS = "Das ehemals gotische Wasserschloss brannte 1724 ab, wurde 1752\n" +
+    public final String KLOSTER_NEUHAUS_d = "Das ehemals gotische Wasserschloss brannte 1724 ab, wurde 1752\n" +
             "barock aufgebaut, um 1900 mit Kirche und rechtem Trakt erweitert\n" +
             "und\n" +
-            "ist heute Kloster und Realschule der Englischen Fräulein.\n" +
+            "ist heute Kloster und Realschule der Englischen Fräulein.\n";
+
+    public final String KLOSTER_NEUHAUS_e =
             "The original Gothic palace burned down in 1724, but was rebuilt in\n" +
             "the Baroque style 28 years later. The church and right-hand tract were\n" +
             "added in 1900. The building is now used as a convent and school.";
 
-    public final String St_GEORGS_BRUNNEN = "1607 aus Granit geschaffen; bis 1884 hatte er seinen Standort auf dem\n" +
+    public final String St_GEORGS_BRUNNEN_d = "1607 aus Granit geschaffen; bis 1884 hatte er seinen Standort auf dem\n" +
             "Oberen Stadtplatz. Ursprünglich stand hier der St.-Florian-Brunnen,\n" +
             "dessen barocke Statue jetzt im Schlosspark\n" +
-            "aufgestellt ist.\n" +
+            "aufgestellt ist.\n";
+    public final String St_GEORGS_BRUNNEN_e =
             "Carved out of solid granite in 1607, this fountain was situated on the\n" +
             "Upper Place until 1884. The Baroque statuary of the St.-Florian-Brunnen\n" +
             "that preceded it at this site can now be viewed in the Castle Park.";
 
-    public final String FRESKO = "“Heuchler, zieh’ zuvor den Balken aus deinem Auge, dann magst du\n" +
+    public final String FRESKO_d = "“Heuchler, zieh’ zuvor den Balken aus deinem Auge, dann magst du\n" +
             "sehen, wie du den Splitter aus deines Bruders Auge ziehst. Luc. VI, 42.”\n" +
             "Mit diesem als Trutzbild geschaffenen Fresko wollte sich der einstige\n" +
             "Besitzer an den Ratsherren rächen, die in einem Rechtsstreit bei ihm\n" +
-            "alle Schuld suchten, ihre eigenen Fehler aber nicht sehen wollten.\n" +
+            "alle Schuld suchten, ihre eigenen Fehler aber nicht sehen wollten.\n";
+    public final String FRESKO_e =
             "„You hypocrite, first take the log out of your own eye, and then you\n" +
             "will see clearly to take out the speck that is in your brother‘s eye“ (Luke\n" +
             "6, 42). Heartily fed up with the town councillors for litigating against\n" +
@@ -239,10 +254,11 @@ public class SehenwuerdigkeitenTexte {
             "the erstwhile owner of this house took revenge by adorning his house\n" +
             "with this fresco.";
 
-    public final String RATHAUS = "Es wurde 1594 aus zwei aufgekauften Bürgerhäusern errichtet. Nach\n" +
+    public final String RATHAUS_d = "Es wurde 1594 aus zwei aufgekauften Bürgerhäusern errichtet. Nach\n" +
             "Brandschäden von 1809 mehrmaliger Umbau in Neugotik und Neubarock.\n" +
             "Im Rathaussaal im ersten Stock befinden sich Fresken von Prof.\n" +
-            "Zülow (Linz, 1947) mit charakteristischen Motiven der Altstadt.\n" +
+            "Zülow (Linz, 1947) mit charakteristischen Motiven der Altstadt.\n";
+    public final String RATHAUS_e =
             "Schärding‘s town hall dates back to 1594, when two patrician‘s houses\n" +
             "were joined together to create a new Rathaus. Having suffered severe\n" +
             "fire damage in 1809, it was restyled several times in the Neo-Gothic\n" +
@@ -250,14 +266,15 @@ public class SehenwuerdigkeitenTexte {
             "frescos by Prof. Zülow of Linz (1947) depicting motifs characteristic of\n" +
             "the old town.";
 
-    public final String SCHLOSSTOR = "Früher Wohnung des herzoglichen Burghüters, heute Heimathaus\n" +
+    public final String SCHLOSSTOR_d = "Früher Wohnung des herzoglichen Burghüters, heute Heimathaus\n" +
             "und\n" +
             "Stadtmuseum. Bis 1809 nur über eine Brücke über den damals äußeren\n" +
             "Burggraben erreichbar.\n" +
             "Der rückwärtige ältere Teil aus Tuffstein bildete\n" +
             "den äußeren Burgturm und hatte einst vier Stockwerke. Er geht auf die\n" +
             "Wehranlagen zurück, die Herzog Ludwig der Gebartete 1428 - 1436\n" +
-            "errichten ließ.\n" +
+            "errichten ließ.\n";
+    public final String SCHLOSSTOR_e =
             "Once home to the guards of the ducal palace, this castle gate now houses\n" +
             "Schärding‘s local museum. Until 1809, it was accessible only via a\n" +
             "bridge across the outer moat. The older part of the building at the rear\n" +
@@ -265,7 +282,7 @@ public class SehenwuerdigkeitenTexte {
             "tower of the fortress built for Duke Ludwig the Bearded between 1428\n" +
             "and 1436.";
 
-    public final String KUBINSAAL = "Der nach Plänen der Architekten Schaffer und Sturm (Linz-Hörsching)\n" +
+    public final String KUBINSAAL_d = "Der nach Plänen der Architekten Schaffer und Sturm (Linz-Hörsching)\n" +
             "1997 erbaute und nach dem heimischen Grafiker Alfred Kubin benannte\n" +
             "Saal fasst ca. 300 Personen und wird für Veranstaltungen verschiedenster\n" +
             "Art verwendet. Planungsvorgabe\n" +
@@ -273,7 +290,8 @@ public class SehenwuerdigkeitenTexte {
             "alten historischen Stadtbefestigung\n" +
             "stammenden Ringmauer, welcher\n" +
             "im ursprünglichen (unverputzten) Zustand die Bühnenrückwand\n" +
-            "bildet.\n" +
+            "bildet.\n";
+    public final String KUBINSAAL_e =
             "Designed by the architects Schaffer und Sturm of Linz-Hörsching, the\n" +
             "Kubinsaal built in 1997 is named after the artist, Alfred Kubin, who was\n" +
             "a native of Schärding. With room for some 300 people, the Kubinsaal\n" +
@@ -282,14 +300,16 @@ public class SehenwuerdigkeitenTexte {
             "town‘s medieval fortifications, the old town wall - still without rendering\n" +
             "- now serves as a backdrop for the stage.";
 
-    public final String SCHLOSSPARK = "Der ehemalige Burghof wurde 1895 zu einer Parkanlage umgestaltet.\n" +
+    public final String SCHLOSSPARK_d = "Der ehemalige Burghof wurde 1895 zu einer Parkanlage umgestaltet.\n" +
             "An der Stelle des jetzigen Aussichtspavillons war früher der „ Pallas“,\n" +
             "das repräsentative Wohngebäude der Burg. Im kleinen Barockgärtlein\n" +
             "steht die Statue des heiligen Florian aus dem 17. Jahrhundert. Im Norderker\n" +
             "erinnert ein Kanonennachbau an die oftmaligen Verteidigungskämpfe\n" +
             "der Stadt. An der inneren Ringmauer erinnert eine Gedenktafel\n" +
             "an den „Frieden zu Schärding 1369“, durch welchen die Zugehörigkeit\n" +
-            "der Stadt zu Bayern manifestiert wurde.\n" +
+            "der Stadt zu Bayern manifestiert wurde.\n";
+
+    public final String SCHLOSSPARK_e =
             "In 1895, the former castle courtyard was redesigned into a park. What\n" +
             "is now the observation pavilion used to be the “Pallas“, i.e. the castle’s\n" +
             "prestigious residential building. The little Baroque garden boasts a statue\n" +
@@ -299,35 +319,37 @@ public class SehenwuerdigkeitenTexte {
             "a commemorative plaque recalls the “Schärding Peace Agreement of\n" +
             "1369“, a historical event marking the town’s falling to what was then\n" +
             "the Kingdom of Bavaria.";
-
-    public final String BURGBRUNNEN = "Der 26 m tiefe, aus dem Granit gemeißelte Brunnen wurde 2003 wieder\n" +
+    public final String BURGBRUNNEN_d = "Der 26 m tiefe, aus dem Granit gemeißelte Brunnen wurde 2003 wieder\n" +
             "entdeckt. Er stammt vom Bau der Burg im Jahr 1225. Das Brunnenhaus\n" +
-            "wurde nach einem Votivbild von 1499 rekonstruiert.\n" +
+            "wurde nach einem Votivbild von 1499 rekonstruiert.\n";
+    public final String BURGBRUNNEN_e =
             "This 26m deep well was rediscovered in 2003. Chiseled out of the\n" +
             "granite, it dates from the construction of the castle in the year 1225.\n" +
             "The well-house has been reconstructed according to a votive painting\n" +
             "dating from 1499.";
 
-    public final String ALTE_INNBRUECKE = "Laut Chronist Lamprecht stammen die elf Pfeiler aus dem Jahre 1310;\n" +
+    public final String ALTE_INNBRUECKE_d = "Laut Chronist Lamprecht stammen die elf Pfeiler aus dem Jahre 1310;\n" +
             "sie wurden damals auf Granitfelsen im Flussbett errichtet. Beim Katastrophenhochwasser\n" +
             "1899 wurde die gesamte Holzfahrbahn\n" +
             "weggerissen.\n" +
             "Nach dem 2. Weltkrieg erhielt die 250 m lange Brücke eine\n" +
-            "Eisenbetonkonstruktion.\n" +
+            "Eisenbetonkonstruktion.\n";
+    public final String ALTE_INNBRUECKE_e =
             "According to the historian, Lamprecht, the eleven-pier bridge dating\n" +
             "from 1310 was erected on granite rocks on the bed of the river. However\n" +
             "it was in 1899 that catastrophically high floodwaters swept the\n" +
             "whole of the wooden decking away. After the Second World War, the\n" +
             "250m long bridge was rebuilt in reinforced concrete.";
 
-    public final String KRIEGS_MAHNMAL = "1958 von Prof. Walter Ritter (Linz) geschaffen. Stellt die Schrecken des\n" +
+    public final String KRIEGS_MAHNMAL_d = "1958 von Prof. Walter Ritter (Linz) geschaffen. Stellt die Schrecken des\n" +
             "Krieges in der Gestalt eines der apokalyptischen Reiter aus der Geheimen\n" +
-            "Offenbarung des Johannes dar.\n" +
+            "Offenbarung des Johannes dar.\n";
+    public final String KRIEGS_MAHNMAL_e =
             "Created by Prof. Walter Ritter of Linz in 1958, this war memorial uses\n" +
             "one of the Riders of the Apocalypse from the Revelation of St. John to\n" +
             "symbolize the horrors of war.";
 
-    public final String KURHAUS = "Es steht auf einem kleinen Hügel im Eichbüchl.\n" +
+    public final String KURHAUS_d = "Es steht auf einem kleinen Hügel im Eichbüchl.\n" +
             "1635 - 1638 entstand hier ein Kapuzinerkloster mit Kirche. Um 1800\n" +
             "Aufhebung des Klosters; 1814 wurde das Gebäude zum Amtshaus\n" +
             "umgebaut und 1928 durch den Konvent der Barmherzigen Brüder angekauft,\n" +
@@ -338,7 +360,9 @@ public class SehenwuerdigkeitenTexte {
             "Eichbüchl mit Sebastianskirche, Kapuzinerkloster und Stadtmauer,\n" +
             "gemalt\n" +
             "1738 von Michelangelo Unterberger. Die lebensgroßen barocken\n" +
-            "Heiligenstatuen stammen aus der Wiener Rochuskirche.\n" +
+            "Heiligenstatuen stammen aus der Wiener Rochuskirche.\n";
+
+    public final String KURHAUS_e =
             "Schärding‘s Kneipp Health Resort, which was originally a Cistercian\n" +
             "Monastery built in 1635-1638, is situated on a small hill in the Eichbüchl.\n" +
             "Following the dissolution of the monastery around 1800, the\n" +
@@ -347,12 +371,14 @@ public class SehenwuerdigkeitenTexte {
             "today‘s Kurhaus and henceforth used the old Cistercian church as the\n" +
             "Kurhaus church.";
 
-    public final String BAROCKGARTEN_ORANGERIE = "Bevor Sie zur Station 26 weitergehen, machen Sie einen kurzen Abstecher\n" +
+    public final String BAROCKGARTEN_ORANGERIE_d = "Bevor Sie zur Station 26 weitergehen, machen Sie einen kurzen Abstecher\n" +
             "ins Eichbüchl und werfen einen Blick auf den Barockgarten\n" +
             "Orangerie. An der alten Stadtmauer wurde 1884 von Georg Wieninger\n" +
             "ein Gewächshaus mit Gärtnerwohnung liebevoll errichtet, das 2004\n" +
             "revitalisiert wurde und heute ein Restaurant – inmitten einer herrlichen\n" +
-            "Parkanlage – beherbergt.\n" +
+            "Parkanlage – beherbergt.\n";
+
+    public final String BAROCKGARTEN_ORANGERIE_e =
             "Along the old town wall, Georg Wieninger built a greenhouse with\n" +
             "lovely decorated apartments for the gardeners that was renovated in\n" +
             "2004 and is now a restaurant surrounded by a wonderful\n" +
@@ -360,11 +386,13 @@ public class SehenwuerdigkeitenTexte {
             "you continue to station 26, make a short stop at Eichbüchl and have a\n" +
             "look at the Baroque garden Orangerie.";
 
-    public final String EVANGELISCHE_KIRCHE = "Sebastianskirche oder Kirche am Stein (steht auf einem Granitfelsen),\n" +
+    public final String EVANGELISCHE_KIRCHE_d = "Sebastianskirche oder Kirche am Stein (steht auf einem Granitfelsen),\n" +
             "erbaut zu Ehren der Pest- und Seuchenheiligen Sebastian und Rochus\n" +
             "zur Abwendung der Seuche um 1630. 1783 profaniert, später Theater\n" +
             "und Lagerraum. Nach sorgfältiger Restaurierung seit 1954 evangelische\n" +
-            "Pfarrkirche.\n" +
+            "Pfarrkirche.\n";
+
+    public final String EVANGELISCHE_KIRCHE_e =
             "The Church of St. Sebastian, also known as the Church on the Rock\n" +
             "(situated on a solid block of granite) was originally built in 1630 in\n" +
             "honour of both St. Sebastian und St. Rochus. These are the saints of\n" +
@@ -373,11 +401,12 @@ public class SehenwuerdigkeitenTexte {
             "it was used as a theatre and warehouse. It was eventually restored and\n" +
             "reconsecrated as a Protestant parish Church in 1954.";
 
-    public final String BEZIRKSHAUPTMANNSCHAFT = "1695 in dieser Grundform als Wohnhaus des Großhändlers Andreas\n" +
+    public final String BEZIRKSHAUPTMANNSCHAFT_d = "1695 in dieser Grundform als Wohnhaus des Großhändlers Andreas\n" +
             "Schacky erbaut, nach 1782 Kastenamt, 1816 K.K. Land- und Pflegegericht\n" +
             "und seit 1854 Bezirksamt bzw. Bezirkshauptmannschaft.\n" +
             "Die heutige klassizistische Gestalt erhielt das Gebäude nach Bränden\n" +
-            "von 1779 und 1809.\n" +
+            "von 1779 und 1809.\n";
+    public final String BEZIRKSHAUPTMANNSCHAFT_e =
             "Built in 1695 as a private residence for the merchant, Andreas Schacky,\n" +
             "this building has long since served as government offices. It began its\n" +
             "official career as a land registry in 1782, but was later recast as an Austro-\n" +
@@ -385,9 +414,10 @@ public class SehenwuerdigkeitenTexte {
             "commissioner‘s office it still is today until 1854. The Classical façade\n" +
             "was added after the fires of 1779 and 1809.";
 
-    public final String SEILERGRABEN = "Die Türme entlang des Grabens deuten auf das ehemalige befestigte\n" +
+    public final String SEILERGRABEN_d = "Die Türme entlang des Grabens deuten auf das ehemalige befestigte\n" +
             "Aussehen hin. Die Mauer selbst war höher und mit Zinnen versehen.\n" +
-            "Die Rückfronten der Häuser der Silberzeile tragen hier einfache Spitzgiebeln.\n" +
+            "Die Rückfronten der Häuser der Silberzeile tragen hier einfache Spitzgiebeln.\n";
+    public final String SEILERGRABEN_e =
             "The towers along the moat are reminders of its original purpose as part\n" +
             "of the town‘s defences. The wall used to have ramparts and was of\n" +
             "course much higher than it is now. The gables visible here are the rear\n" +
