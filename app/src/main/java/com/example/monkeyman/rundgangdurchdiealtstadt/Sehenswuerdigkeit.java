@@ -1,5 +1,8 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
@@ -7,7 +10,7 @@ import java.io.Serializable;
 /**
  * Created by MonkeyMan on 14.12.2016.
  */
-public class Sehenswuerdigkeit implements Serializable{
+public class Sehenswuerdigkeit implements Parcelable{
     int id;
     String nameDeutsch, nameEnglisch;
     LatLng latLng;
@@ -19,6 +22,27 @@ public class Sehenswuerdigkeit implements Serializable{
         this.nameEnglisch = nameEnglisch;
         this.latLng = latLng;
     }
+
+    protected Sehenswuerdigkeit(Parcel in) {
+        id = in.readInt();
+        nameDeutsch = in.readString();
+        nameEnglisch = in.readString();
+        latLng = in.readParcelable(LatLng.class.getClassLoader());
+        beschreibungDeutsch = in.readString();
+        beschreibungEnglisch = in.readString();
+    }
+
+    public static final Creator<Sehenswuerdigkeit> CREATOR = new Creator<Sehenswuerdigkeit>() {
+        @Override
+        public Sehenswuerdigkeit createFromParcel(Parcel in) {
+            return new Sehenswuerdigkeit(in);
+        }
+
+        @Override
+        public Sehenswuerdigkeit[] newArray(int size) {
+            return new Sehenswuerdigkeit[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -66,5 +90,20 @@ public class Sehenswuerdigkeit implements Serializable{
 
     public void setBeschreibungEnglisch(String beschreibungEnglisch) {
         this.beschreibungEnglisch = beschreibungEnglisch;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(nameEnglisch);
+        dest.writeString(nameDeutsch);
+        dest.writeString(beschreibungDeutsch);
+        dest.writeString(beschreibungEnglisch);
+        dest.writeParcelable(latLng, flags);
     }
 }

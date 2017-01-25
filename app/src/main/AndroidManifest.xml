@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.Light">
+        <service android:name=".GeofenceTrasitionService"></service>
         <activity android:name=".Details" android:label="Infos"/>
         <activity
             android:name=".MapsActivity"
@@ -29,8 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
