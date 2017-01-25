@@ -6,11 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.monkeyman.rundgangdurchdiealtstadt"
-<<<<<<< HEAD
-        minSdkVersion 16
-=======
         minSdkVersion 11
->>>>>>> origin/master
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
