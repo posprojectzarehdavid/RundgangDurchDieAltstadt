@@ -238,6 +238,7 @@ public class MapsActivity extends FragmentActivity
                 String[] values = line.split(";");
                 LatLng ll = new LatLng(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
                 Sehenswuerdigkeit s = new Sehenswuerdigkeit(id, values[2], values[3], ll);
+
                 al.add(s);
                 id++;
             }
@@ -312,7 +313,7 @@ public class MapsActivity extends FragmentActivity
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
-                    Toast.makeText(this, "Thanks for the permission", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.allow, Toast.LENGTH_LONG).show();
                     getLastKnownLocation();
                 } else {
                     Toast.makeText(this, "You did not allow to access your current location", Toast.LENGTH_LONG).show();

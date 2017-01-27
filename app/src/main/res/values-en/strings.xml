@@ -3,4 +3,5 @@
     <string name="app_name">Tour of the Old Town</string>
     <string name="google_maps_key">AIzaSyDUKvElsnOVLhAPyJ7ghX81m7lyeX2D800</string>
     <string name="title_activity_maps">Map</string>
+    <string name="allow">Thanks for the permission!</string>
 </resources>
