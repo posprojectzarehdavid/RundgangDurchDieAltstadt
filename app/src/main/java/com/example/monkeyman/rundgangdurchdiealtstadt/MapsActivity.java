@@ -83,11 +83,12 @@ public class MapsActivity extends FragmentActivity
     private PendingIntent geoFencePendingIntent;
     private final int GEOFENCE_REQ_CODE = 0;
 
+    SehenwuerdigkeitenTexte st = new SehenwuerdigkeitenTexte();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SehenwuerdigkeitenTexte.InitLists();
+        st.InitLists();
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         markers = new HashMap<>();
@@ -230,17 +231,16 @@ public class MapsActivity extends FragmentActivity
     private ArrayList getValuesFromCSV() {
         String line;
         BufferedReader br;
-        int id = 1;
         ArrayList<Sehenswuerdigkeit> al = new ArrayList();
         try {
             br = new BufferedReader(new InputStreamReader(getResources().getAssets().open("latlng_values.csv")));
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 LatLng ll = new LatLng(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
-                Sehenswuerdigkeit s = new Sehenswuerdigkeit(id, values[2], values[3], ll);
-
+                Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
+                s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase()+"_d"));
+                s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase()+"_e"));
                 al.add(s);
-                id++;
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
