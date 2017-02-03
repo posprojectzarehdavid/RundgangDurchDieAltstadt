@@ -1,8 +1,12 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
@@ -14,7 +18,9 @@ public class Sehenswuerdigkeit implements Parcelable{
     String id;
     String nameDeutsch, nameEnglisch;
     LatLng latLng;
+
     String beschreibungDeutsch, beschreibungEnglisch;
+    Drawable bild;
 
     public Sehenswuerdigkeit(String id, String nameDeutsch, String nameEnglisch, LatLng latLng) {
         this.id = id;
@@ -53,6 +59,14 @@ public class Sehenswuerdigkeit implements Parcelable{
             return new Sehenswuerdigkeit[size];
         }
     };
+
+    public Drawable getBild() {
+        return bild;
+    }
+
+    public void setBild(Drawable bild) {
+        this.bild = bild;
+    }
 
     public String getId() {
         return id;

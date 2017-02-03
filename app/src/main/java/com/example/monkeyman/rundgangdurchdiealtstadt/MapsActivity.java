@@ -6,10 +6,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.Build;
 
 import android.annotation.TargetApi;
@@ -28,6 +32,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.os.EnvironmentCompat;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -54,8 +59,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -240,6 +247,12 @@ public class MapsActivity extends FragmentActivity
                 Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
                 s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase()+"_d"));
                 s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase()+"_e"));
+                if(!values[4].equals("s11")) {
+                    InputStream ims = getAssets().open(values[4] + ".PNG");
+                    Drawable d = Drawable.createFromStream(ims, null);
+                    s.setBild(d);
+                }
+
                 al.add(s);
             }
         } catch (FileNotFoundException e) {

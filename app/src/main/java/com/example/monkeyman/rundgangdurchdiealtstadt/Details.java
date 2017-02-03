@@ -41,6 +41,7 @@ public class Details extends FragmentActivity {
         TextView beschreibung = (TextView) findViewById(R.id.beschreibung);
         ImageView image = (ImageView) findViewById(R.id.imageView);
 
+        image.setImageDrawable(se.bild);
         titel.setText(se.nameDeutsch);
         beschreibung.setText(se.beschreibungDeutsch);
     }
