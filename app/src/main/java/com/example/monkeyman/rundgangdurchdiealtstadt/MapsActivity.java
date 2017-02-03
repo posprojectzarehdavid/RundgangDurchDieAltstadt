@@ -70,7 +70,8 @@ import java.util.HashMap;
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener,
+        LocationListener{
 
     CameraPosition camera;
     HashMap<Marker, Sehenswuerdigkeit> markers;
@@ -106,6 +107,19 @@ public class MapsActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
         createGoogleApi();
         //startGeofence();
+    }
+
+    private void checkLocation() {
+        if(lastLocation == null){
+            lastLocation.setLatitude(48.457);
+            lastLocation.setLongitude(13.4319);
+            if(lastLocation.getLongitude() == 13.4319 && lastLocation.getLatitude()==48.457){
+                Intent intent = new Intent(this, GeofenceTrasitionService.class);
+                startService(intent);
+                //startActivity(intent);
+            }
+        }
+
     }
 
     private void createLocationManager() {
@@ -266,15 +280,12 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onConnected(Bundle bundle) {
         getLastKnownLocation();
-        if (lastLocation != null) {
-            Toast.makeText(this, "Latitude:" + lastLocation.getLatitude() + ", Longitude:" +
-                    lastLocation.getLongitude(), Toast.LENGTH_LONG).show();
-        }
     }
 
     private void getLastKnownLocation() {
         lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        startLocationUpdates();
+        //startLocationUpdates();
+        checkLocation();
     }
 
     private void startLocationUpdates() {
@@ -287,7 +298,7 @@ public class MapsActivity extends FragmentActivity
                 .requestLocationUpdates(googleApiClient, locationRequest, new com.google.android.gms.location.LocationListener() {
                     @Override
                     public void onLocationChanged(Location location) {
-                        lastLocation = location;
+                        checkLocation();
                     }
                 });
     }
@@ -335,5 +346,10 @@ public class MapsActivity extends FragmentActivity
                 break;
             }
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
     }
 }
