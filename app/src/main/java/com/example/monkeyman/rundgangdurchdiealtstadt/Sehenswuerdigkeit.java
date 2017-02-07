@@ -1,6 +1,7 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Parcel;
@@ -36,6 +37,8 @@ public class Sehenswuerdigkeit implements Parcelable{
         beschreibungDeutsch = in.readString();
         beschreibungEnglisch = in.readString();
         latLng = in.readParcelable(LatLng.class.getClassLoader());
+        Bitmap bitmap = in.readParcelable(getClass().getClassLoader());
+        bild = new BitmapDrawable(bitmap);
     }
 
     @Override
@@ -46,6 +49,8 @@ public class Sehenswuerdigkeit implements Parcelable{
         dest.writeString(beschreibungDeutsch);
         dest.writeString(beschreibungEnglisch);
         dest.writeParcelable(latLng, flags);
+        Bitmap bitmap = ((BitmapDrawable) bild).getBitmap();
+        dest.writeParcelable(bitmap, flags);
     }
 
     public static final Creator<Sehenswuerdigkeit> CREATOR = new Creator<Sehenswuerdigkeit>() {

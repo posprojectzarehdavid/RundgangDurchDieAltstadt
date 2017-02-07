@@ -110,7 +110,7 @@ public class MapsActivity extends FragmentActivity
     }
 
     private void checkLocation() {
-        if(lastLocation == null){
+        if(lastLocation != null){
             lastLocation.setLatitude(48.457);
             lastLocation.setLongitude(13.4319);
             if(lastLocation.getLongitude() == 13.4319 && lastLocation.getLatitude()==48.457){
