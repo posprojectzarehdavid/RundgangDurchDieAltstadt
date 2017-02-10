@@ -261,11 +261,6 @@ public class MapsActivity extends FragmentActivity
                 Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
                 s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase()+"_d"));
                 s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase()+"_e"));
-                if(!values[4].equals("s11")) {
-                    InputStream ims = getAssets().open(values[4] + ".PNG");
-                    Drawable d = Drawable.createFromStream(ims, null);
-                    s.setBild(d);
-                }
 
                 al.add(s);
             }
