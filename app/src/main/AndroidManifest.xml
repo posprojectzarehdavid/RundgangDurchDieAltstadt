@@ -31,6 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PrefsActivity" android:label="Optionen" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
