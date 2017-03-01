@@ -28,6 +28,7 @@ import java.io.Serializable;
 public class Details extends FragmentActivity {
 
     Sehenswuerdigkeit s;
+    String language;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class Details extends FragmentActivity {
         setContentView(R.layout.detail);
         Intent intent = getIntent();
         Bundle params = intent.getExtras();
+        language = intent.getSerializableExtra("Sprache").toString();
         s = null;
         if(params != null){
             s = params.getParcelable("Sehenswuerdigkeit");
@@ -56,9 +58,15 @@ public class Details extends FragmentActivity {
             d = Drawable.createFromStream(ims, null);
             image.setImageDrawable(resize(d));
         }
+        if(language.equals("English")){
+            titel.setText(se.nameEnglisch);
+            beschreibung.setText(se.beschreibungEnglisch);
+        }
+        else if(language.equals("Deutsch")){
+            titel.setText(se.nameDeutsch);
+            beschreibung.setText(se.beschreibungDeutsch);
+        }
 
-        titel.setText(se.nameDeutsch);
-        beschreibung.setText(se.beschreibungDeutsch);
     }
     private Drawable resize(Drawable image) {
         Bitmap b = ((BitmapDrawable)image).getBitmap();

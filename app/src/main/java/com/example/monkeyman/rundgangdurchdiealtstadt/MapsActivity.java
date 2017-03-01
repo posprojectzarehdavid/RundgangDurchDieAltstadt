@@ -57,6 +57,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
@@ -72,6 +73,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,65 +89,10 @@ public class MapsActivity extends FragmentActivity
     GoogleApiClient googleApiClient;
     Location lastLocation;
     LocationManager locationManager;
-    SharedPreferences s = new SharedPreferences() {
-        @Override
-        public Map<String, ?> getAll() {
-            return null;
-        }
+    SharedPreferences prefs;
+    String language = "";
 
-        @Nullable
-        @Override
-        public String getString(String s, String s1) {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public Set<String> getStringSet(String s, Set<String> set) {
-            return null;
-        }
-
-        @Override
-        public int getInt(String s, int i) {
-            return 0;
-        }
-
-        @Override
-        public long getLong(String s, long l) {
-            return 0;
-        }
-
-        @Override
-        public float getFloat(String s, float v) {
-            return 0;
-        }
-
-        @Override
-        public boolean getBoolean(String s, boolean b) {
-            return false;
-        }
-
-        @Override
-        public boolean contains(String s) {
-            return false;
-        }
-
-        @Override
-        public Editor edit() {
-            return null;
-        }
-
-        @Override
-        public void registerOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener onSharedPreferenceChangeListener) {
-
-        }
-
-        @Override
-        public void unregisterOnSharedPreferenceChangeListener(OnSharedPreferenceChangeListener onSharedPreferenceChangeListener) {
-
-        }
-    };
-
+    GoogleMap map;
     private LocationRequest locationRequest;
     private final int UPDATE_INTERVAL = 3 * 60 * 1000;
     private final int FASTEST_INTERVAL = 30 * 1000;
@@ -153,6 +100,7 @@ public class MapsActivity extends FragmentActivity
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private static final String GEOFENCE_REQ_ID = "My Geofence";
     private static final float GEOFENCE_RADIUS = 10.0f; // in meters
+    SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     private PendingIntent geoFencePendingIntent;
     private final int GEOFENCE_REQ_CODE = 0;
@@ -162,6 +110,15 @@ public class MapsActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        listener  = new SharedPreferences.OnSharedPreferenceChangeListener() {
+            @Override
+            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+                preferenceChanged(prefs, s);
+            }
+        };
+        prefs.registerOnSharedPreferenceChangeListener(listener);
+        language = prefs.getString("Sprache", null);
         st.InitLists();
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
@@ -174,6 +131,23 @@ public class MapsActivity extends FragmentActivity
         createGoogleApi();
         //startGeofence();
     }
+
+
+
+    private void preferenceChanged(SharedPreferences prefs, String s) {
+         String val = prefs.getString(s, "");
+         language = val;
+         Toast.makeText(this, val, Toast.LENGTH_LONG);
+         if(val.equals("English")){
+             Locale.setDefault(Locale.ENGLISH);
+         }
+        else if(val.equals("Deutsch")){
+             Locale.setDefault(Locale.GERMAN);
+         }
+  //      onMapReady(((MapFragment) getFragmentManager()
+   //             .findFragmentById(R.id.map_fragment)).getMap());
+    }
+
 
     private void checkLocation() {
         if(lastLocation != null){
@@ -293,18 +267,26 @@ public class MapsActivity extends FragmentActivity
                 Sehenswuerdigkeit se = markers.get(marker);
                 Intent intent = new Intent(getApplicationContext(), Details.class);
                 intent.putExtra("Sehenswuerdigkeit", se);
+                intent.putExtra("Sprache", language);
                 startActivity(intent);
             }
         });
+
         //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
 
 
     private void markerSetzen(GoogleMap googleMap) {
         Circle geoFenceLimits;
+        Marker m = null;
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
-            Marker m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+            if(language.equals("Deutsch") || language.equals("")){
+                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+            }
+            else if(language.equals("English")){
+                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+            }
             CircleOptions circleOptions = new CircleOptions()
                     .center(m.getPosition())
                     .strokeColor(Color.argb(50, 0, 102, 255))
