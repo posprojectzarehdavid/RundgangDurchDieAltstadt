@@ -7,6 +7,8 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -35,6 +37,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.os.EnvironmentCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -137,14 +140,19 @@ public class MapsActivity extends FragmentActivity
     private void preferenceChanged(SharedPreferences prefs, String s) {
          String val = prefs.getString(s, "");
          language = val;
-         Toast.makeText(this, val, Toast.LENGTH_LONG);
+         Resources res = getResources();
+         DisplayMetrics dm = res.getDisplayMetrics();
+         Configuration conf = res.getConfiguration();
          if(val.equals("English")){
-             Locale.setDefault(Locale.ENGLISH);
+             conf.locale = new Locale("en");
          }
         else if(val.equals("Deutsch")){
-             Locale.setDefault(Locale.GERMAN);
+             conf.locale = new Locale("de");
          }
-  //      onMapReady(((MapFragment) getFragmentManager()
+        //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
+        res.updateConfiguration(conf, dm);
+
+        //      onMapReady(((MapFragment) getFragmentManager()
    //             .findFragmentById(R.id.map_fragment)).getMap());
     }
 

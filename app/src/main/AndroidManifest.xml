@@ -16,22 +16,26 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="locale|orientation"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.Holo.Light">
 
         <service android:name=".GeofenceTrasitionService"></service>
-        <activity android:name=".Details" android:label="Infos"/>
+        <activity android:name=".Details" android:label="Infos"
+            android:configChanges="locale|orientation"/>
         <activity
             android:name=".MapsActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:configChanges="locale|orientation">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PrefsActivity" android:label="Optionen" />
+        <activity android:name=".PrefsActivity" android:label="@string/options" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
