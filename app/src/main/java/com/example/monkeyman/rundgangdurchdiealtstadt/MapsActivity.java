@@ -95,6 +95,7 @@ public class MapsActivity extends FragmentActivity
     SharedPreferences prefs;
     String language = "";
 
+    boolean serviceEnabled;
     GoogleMap map;
     private LocationRequest locationRequest;
     private final int UPDATE_INTERVAL = 3 * 60 * 1000;
@@ -138,22 +139,28 @@ public class MapsActivity extends FragmentActivity
 
 
     private void preferenceChanged(SharedPreferences prefs, String s) {
-         String val = prefs.getString(s, "");
-         language = val;
-         Resources res = getResources();
-         DisplayMetrics dm = res.getDisplayMetrics();
-         Configuration conf = res.getConfiguration();
-         if(val.equals("English")){
-             conf.locale = new Locale("en");
-         }
-        else if(val.equals("Deutsch")){
-             conf.locale = new Locale("de");
-         }
-        //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
-        res.updateConfiguration(conf, dm);
+        if(s.equals("Sprache")){
+            String val = prefs.getString(s, "");
+            language = val;
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            if(val.equals("English")){
+                conf.locale = new Locale("en");
+            }
+            else if(val.equals("Deutsch")){
+                conf.locale = new Locale("de");
+            }
+            //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
+            res.updateConfiguration(conf, dm);
 
-        //      onMapReady(((MapFragment) getFragmentManager()
-   //             .findFragmentById(R.id.map_fragment)).getMap());
+            //      onMapReady(((MapFragment) getFragmentManager()
+            //             .findFragmentById(R.id.map_fragment)).getMap());
+        }
+        else if(s.equals("Service")){
+            boolean service = prefs.getBoolean(s, false);
+            serviceEnabled = service;
+        }
     }
 
 
@@ -289,11 +296,16 @@ public class MapsActivity extends FragmentActivity
         Marker m = null;
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
-            if(language.equals("Deutsch") || language.equals("")){
-                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+            if(language != null) {
+                if (language.equals("Deutsch") || language.equals("")) {
+                    m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+                } else if (language.equals("English")) {
+                    m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+                }
             }
-            else if(language.equals("English")){
-                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+            else{
+                m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+
             }
             CircleOptions circleOptions = new CircleOptions()
                     .center(m.getPosition())
