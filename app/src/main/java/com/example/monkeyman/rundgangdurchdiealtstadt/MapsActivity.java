@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.location.LocationListener;
 import android.media.Image;
 import android.os.Build;
 
@@ -54,7 +55,6 @@ import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import com.google.android.gms.location.LocationListener;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -84,7 +84,7 @@ public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener{
+        LocationListener {
 
     CameraPosition camera;
     HashMap<Marker, Sehenswuerdigkeit> markers;
@@ -97,8 +97,9 @@ public class MapsActivity extends FragmentActivity
 
     GoogleMap map;
     private LocationRequest locationRequest;
-    private final int UPDATE_INTERVAL = 3 * 60 * 1000;
-    private final int FASTEST_INTERVAL = 30 * 1000;
+    private ArrayList<Location> markerLocations;
+    private final int UPDATE_INTERVAL = 1000;
+    private final int FASTEST_INTERVAL = 1000;
 
     private static final long GEO_DURATION = 60 * 60 * 1000;
     private static final String GEOFENCE_REQ_ID = "My Geofence";
@@ -109,12 +110,13 @@ public class MapsActivity extends FragmentActivity
     private final int GEOFENCE_REQ_CODE = 0;
 
     SehenwuerdigkeitenTexte st = new SehenwuerdigkeitenTexte();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        listener  = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
                 preferenceChanged(prefs, s);
@@ -126,42 +128,47 @@ public class MapsActivity extends FragmentActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         markers = new HashMap<>();
+        markerLocations = new ArrayList<>();
         sehenswFromCSV = getValuesFromCSV();
+
+        locationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setInterval(UPDATE_INTERVAL)
+                .setFastestInterval(FASTEST_INTERVAL);
+
         checkPermission();
         askPermission();
         createLocationManager();
         mapFragment.getMapAsync(this);
-        createGoogleApi();
-        //startGeofence();
+
+
     }
 
 
-
     private void preferenceChanged(SharedPreferences prefs, String s) {
-         String val = prefs.getString(s, "");
-         language = val;
-         Resources res = getResources();
-         DisplayMetrics dm = res.getDisplayMetrics();
-         Configuration conf = res.getConfiguration();
-         if(val.equals("English")){
-             conf.locale = new Locale("en");
-         }
-        else if(val.equals("Deutsch")){
-             conf.locale = new Locale("de");
-         }
+        String val = prefs.getString(s, "");
+        language = val;
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        if (val.equals("English")) {
+            conf.locale = new Locale("en");
+        } else if (val.equals("Deutsch")) {
+            conf.locale = new Locale("de");
+        }
         //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
         res.updateConfiguration(conf, dm);
 
         //      onMapReady(((MapFragment) getFragmentManager()
-   //             .findFragmentById(R.id.map_fragment)).getMap());
+        //             .findFragmentById(R.id.map_fragment)).getMap());
     }
 
 
     private void checkLocation() {
-        if(lastLocation != null){
+        if (lastLocation != null) {
             lastLocation.setLatitude(48.457);
             lastLocation.setLongitude(13.4319);
-            if(lastLocation.getLongitude() == 13.4319 && lastLocation.getLatitude()==48.457){
+            if (lastLocation.getLongitude() == 13.4319 && lastLocation.getLatitude() == 48.457) {
                 Intent intent = new Intent(this, GeofenceTrasitionService.class);
                 startService(intent);
                 //startActivity(intent);
@@ -179,6 +186,17 @@ public class MapsActivity extends FragmentActivity
             crta.setAccuracy(Criteria.ACCURACY_MEDIUM);
         }
         crta.setPowerRequirement(Criteria.POWER_LOW);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, FASTEST_INTERVAL, 10, this);
     }
 
     private void startGeofence() {
@@ -244,20 +262,33 @@ public class MapsActivity extends FragmentActivity
                 .build();
     }
 
+
     @Override
     protected void onStart() {
         super.onStart();
-        if (googleApiClient != null) {
+        createGoogleApi();
+        //if (googleApiClient != null) {
             googleApiClient.connect();
-        }
+
+            Log.i("hallo", "apiclient im on onstart connected");
+        //}
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        googleApiClient.connect();
+
+        Log.i("hallo", "apiclient im on resume connected");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (googleApiClient != null) {
+        //if (googleApiClient != null) {
             googleApiClient.disconnect();
-        }
+        Log.i("hallo", "apiclient im on onstop disconnected");
+        //}
     }
 
     @Override
@@ -283,18 +314,21 @@ public class MapsActivity extends FragmentActivity
         //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
 
-
     private void markerSetzen(GoogleMap googleMap) {
         Circle geoFenceLimits;
         Marker m = null;
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
-            if(language.equals("Deutsch") || language.equals("")){
-                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
-            }
-            else if(language.equals("English")){
-                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
-            }
+            /*if(language != null) {
+                if (language.equals("Deutsch") || language.equals("")) {
+                    m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+                } else if (language.equals("English")) {
+                    m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+                }
+            } else{
+                language = "English";
+            }*/
+            m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
             CircleOptions circleOptions = new CircleOptions()
                     .center(m.getPosition())
                     .strokeColor(Color.argb(50, 0, 102, 255))
@@ -333,7 +367,10 @@ public class MapsActivity extends FragmentActivity
                 Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
                 s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase()+"_d"));
                 s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase()+"_e"));
-
+                Location temp = new Location(LocationManager.GPS_PROVIDER);
+                temp.setLongitude(Double.parseDouble(values[1]));
+                temp.setLatitude(Double.parseDouble(values[0]));
+                markerLocations.add(temp);
                 al.add(s);
             }
         } catch (FileNotFoundException e) {
@@ -347,27 +384,18 @@ public class MapsActivity extends FragmentActivity
     @Override
     public void onConnected(Bundle bundle) {
         getLastKnownLocation();
+
     }
 
     private void getLastKnownLocation() {
-        lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-        //startLocationUpdates();
-        checkLocation();
-    }
+        lastLocation = LocationServices.FusedLocationApi
+                .getLastLocation(googleApiClient);
 
-    private void startLocationUpdates() {
-        locationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                .setInterval(UPDATE_INTERVAL)
-                .setFastestInterval(FASTEST_INTERVAL);
-
-        LocationServices.FusedLocationApi
-                .requestLocationUpdates(googleApiClient, locationRequest, new com.google.android.gms.location.LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        checkLocation();
-                    }
-                });
+        /*if(lastLocation == null) {
+            LocationServices.FusedLocationApi
+                    .requestLocationUpdates(googleApiClient, locationRequest, this);
+        }*/
+        //checkLocation();
     }
 
     private boolean checkPermission() {
@@ -377,7 +405,6 @@ public class MapsActivity extends FragmentActivity
         }
         return false;
     }
-
 
     private void askPermission() {
         if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
@@ -405,7 +432,7 @@ public class MapsActivity extends FragmentActivity
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Permission granted
                     Toast.makeText(this, R.string.allow, Toast.LENGTH_LONG).show();
-                    getLastKnownLocation();
+                    //getLastKnownLocation();
                 } else {
                     Toast.makeText(this, "You did not allow to access your current location", Toast.LENGTH_LONG).show();
                     MapsActivity.this.closeContextMenu();
@@ -417,6 +444,27 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onLocationChanged(Location location) {
+        Log.i("hallo", "locationchanged");
+        for(int i = 0; i<markerLocations.size(); i++){
+            int m = (int)location.distanceTo(markerLocations.get(i));
+            if(m<30){
+                Log.i("hallo", "entfernung ist "+m );
+            }
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
 
     }
 }
