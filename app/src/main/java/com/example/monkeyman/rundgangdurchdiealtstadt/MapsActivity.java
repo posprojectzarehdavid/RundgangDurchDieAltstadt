@@ -142,6 +142,7 @@ public class MapsActivity extends FragmentActivity
         if(s.equals("Sprache")){
             String val = prefs.getString(s, "");
             language = val;
+            getActionBar().setTitle(R.string.app_name);
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
