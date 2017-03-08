@@ -3,8 +3,13 @@
     <ListPreference android:key="Sprache"
         android:title= "@string/lang"
         android:entries="@array/Sprachen"
-        android:entryValues="@array/Sprachen">
+        android:entryValues="@array/Sprachen"
+        android:defaultValue="English">
 
     </ListPreference>
+    <SwitchPreference android:key = "Service"
+        android:title="@string/notification"
+        >
 
+    </SwitchPreference>
 </PreferenceScreen>
