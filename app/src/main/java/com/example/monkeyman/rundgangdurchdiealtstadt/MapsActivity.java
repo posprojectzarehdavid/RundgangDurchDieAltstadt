@@ -1,90 +1,49 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
 import android.Manifest;
-
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
-import android.location.LocationListener;
-import android.media.Image;
-import android.os.Build;
-
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.LocationManager;
-import android.os.Build;
-import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
-
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.os.EnvironmentCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.Geofence;
-import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
 
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        GoogleApiClient.OnConnectionFailedListener{
 
     CameraPosition camera;
     HashMap<Marker, Sehenswuerdigkeit> markers;
@@ -102,13 +61,9 @@ public class MapsActivity extends FragmentActivity
     private final int UPDATE_INTERVAL = 1000;
     private final int FASTEST_INTERVAL = 1000;
 
-    private static final long GEO_DURATION = 60 * 60 * 1000;
-    private static final String GEOFENCE_REQ_ID = "My Geofence";
-    private static final float GEOFENCE_RADIUS = 10.0f; // in meters
-    SharedPreferences.OnSharedPreferenceChangeListener listener;
+    Intent intent;
 
-    private PendingIntent geoFencePendingIntent;
-    private final int GEOFENCE_REQ_CODE = 0;
+    SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     SehenwuerdigkeitenTexte st = new SehenwuerdigkeitenTexte();
 
@@ -139,128 +94,47 @@ public class MapsActivity extends FragmentActivity
 
         checkPermission();
         askPermission();
-        createLocationManager();
+
         mapFragment.getMapAsync(this);
+        serviceEnabled = prefs.getBoolean("Service",true);
+        if(serviceEnabled){
+            createServiceIntent();
+            startService(intent);
+        }
+    }
 
-
+    private void createServiceIntent() {
+        intent = new Intent(this, MyService.class);
+        intent.putExtra("List",markerLocations);
     }
 
 
     private void preferenceChanged(SharedPreferences prefs, String s) {
-        if(s.equals("Sprache")){
+        if (s.equals("Sprache")) {
             String val = prefs.getString(s, "");
             language = val;
-            getActionBar().setTitle(R.string.app_name);
+            setTitle(R.string.app_name);
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
-            if(val.equals("English")){
+            if (val.equals("English")) {
                 conf.locale = new Locale("en");
-            }
-            else if(val.equals("Deutsch")){
+            } else if (val.equals("Deutsch")) {
                 conf.locale = new Locale("de");
             }
             //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
             res.updateConfiguration(conf, dm);
 
-            //      onMapReady(((MapFragment) getFragmentManager()
-            //             .findFragmentById(R.id.map_fragment)).getMap());
-        }
-        else if(s.equals("Service")){
+        } else if (s.equals("Service")) {
             boolean service = prefs.getBoolean(s, false);
             serviceEnabled = service;
-        }
-    }
-
-
-    private void checkLocation() {
-        if (lastLocation != null) {
-            lastLocation.setLatitude(48.457);
-            lastLocation.setLongitude(13.4319);
-            if (lastLocation.getLongitude() == 13.4319 && lastLocation.getLatitude() == 48.457) {
-                Intent intent = new Intent(this, GeofenceTrasitionService.class);
+            if(serviceEnabled){
+                createServiceIntent();
                 startService(intent);
-                //startActivity(intent);
+            }else{
+                stopService(intent);
             }
         }
-
-    }
-
-    private void createLocationManager() {
-        locationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
-        Criteria crta = new Criteria();
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD) {
-            crta.setAccuracy(Criteria.ACCURACY_FINE);
-        } else {
-            crta.setAccuracy(Criteria.ACCURACY_MEDIUM);
-        }
-        crta.setPowerRequirement(Criteria.POWER_LOW);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, FASTEST_INTERVAL, 10, this);
-    }
-
-    private void startGeofence() {
-        for (int i = 0; i < sehenswFromCSV.size(); i++) {
-            Geofence geofence = createGeofence(sehenswFromCSV.get(i).getLatLng(), GEOFENCE_RADIUS);
-            GeofencingRequest geofenceRequest = createGeofenceRequest(geofence);
-            addGeofence(geofenceRequest);
-        }
-    }
-
-    private Geofence createGeofence(LatLng latLng, float radius) {
-        return new Geofence.Builder()
-                .setRequestId(GEOFENCE_REQ_ID)
-                .setCircularRegion(latLng.latitude, latLng.longitude, radius)
-                .setExpirationDuration(GEO_DURATION)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER
-                        | Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build();
-    }
-
-    private GeofencingRequest createGeofenceRequest(Geofence geofence) {
-        return new GeofencingRequest.Builder()
-                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-                .addGeofence(geofence)
-                .build();
-    }
-
-    private PendingIntent createGeofencePendingIntent() {
-        if (geoFencePendingIntent != null)
-            return geoFencePendingIntent;
-
-        Intent intent = new Intent(this, GeofenceTrasitionService.class);
-        return PendingIntent.getService(
-                this, GEOFENCE_REQ_CODE, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private void addGeofence(GeofencingRequest request) {
-        LocationServices.GeofencingApi.addGeofences(
-                googleApiClient,
-                request,
-                createGeofencePendingIntent()
-        ).setResultCallback(new ResultCallback<Status>() {
-            @Override
-            public void onResult(Status status) {
-                if (status.isSuccess()) {
-                    // 4. If successful, save the geofence
-
-                } else {
-                    // 5. If not successful, log and send an error
-                    Log.e("Hallo", "Registering geofence failed: " + status.getStatusMessage() +
-                            " : " + status.getStatusCode());
-
-                }
-            }
-        });
     }
 
     protected synchronized void createGoogleApi() {
@@ -271,33 +145,34 @@ public class MapsActivity extends FragmentActivity
                 .build();
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();
         createGoogleApi();
-        //if (googleApiClient != null) {
-            googleApiClient.connect();
-
-            Log.i("hallo", "apiclient im on onstart connected");
-        //}
+        googleApiClient.connect();
+        Log.i("hallo", "apiclient im on onstart connected");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         googleApiClient.connect();
-
         Log.i("hallo", "apiclient im on resume connected");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //if (googleApiClient != null) {
-            googleApiClient.disconnect();
+        googleApiClient.disconnect();
         Log.i("hallo", "apiclient im on onstop disconnected");
-        //}
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        googleApiClient.disconnect();
+        Log.i("hallo", "app destroyed");
+        stopService(intent);
     }
 
     @Override
@@ -319,39 +194,32 @@ public class MapsActivity extends FragmentActivity
                 startActivity(intent);
             }
         });
-
-        //googleMap.addMarker(new MarkerOptions().position(schaerding).title("Marker in Schärding"));
     }
 
     private void markerSetzen(GoogleMap googleMap) {
-        Circle geoFenceLimits;
-        Marker m = null;
+        Marker m;
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
             m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
-            CircleOptions circleOptions = new CircleOptions()
-                    .center(m.getPosition())
-                    .strokeColor(Color.argb(50, 0, 102, 255))
-                    .fillColor(Color.argb(100, 0, 204, 255))
-                    .radius(GEOFENCE_RADIUS);
-            geoFenceLimits = googleMap.addCircle(circleOptions);
             markers.put(m, s);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.optionsmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        switch(id){
-            case R.id.optionen: startActivity(new Intent(this, PrefsActivity.class));
+        switch (id) {
+            case R.id.optionen:
+                startActivity(new Intent(this, PrefsActivity.class));
                 return true;
-            default: return false;
+            default:
+                return false;
         }
     }
 
@@ -365,8 +233,8 @@ public class MapsActivity extends FragmentActivity
                 String[] values = line.split(";");
                 LatLng ll = new LatLng(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
                 Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
-                s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase()+"_d"));
-                s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase()+"_e"));
+                s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase() + "_d"));
+                s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase() + "_e"));
                 Location temp = new Location(LocationManager.GPS_PROVIDER);
                 temp.setLongitude(Double.parseDouble(values[1]));
                 temp.setLatitude(Double.parseDouble(values[0]));
@@ -383,19 +251,8 @@ public class MapsActivity extends FragmentActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        getLastKnownLocation();
-
-    }
-
-    private void getLastKnownLocation() {
         lastLocation = LocationServices.FusedLocationApi
                 .getLastLocation(googleApiClient);
-
-        /*if(lastLocation == null) {
-            LocationServices.FusedLocationApi
-                    .requestLocationUpdates(googleApiClient, locationRequest, this);
-        }*/
-        //checkLocation();
     }
 
     private boolean checkPermission() {
@@ -407,10 +264,10 @@ public class MapsActivity extends FragmentActivity
     }
 
     private void askPermission() {
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)){
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 
         }
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},100);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
     }
 
     @Override
@@ -442,29 +299,4 @@ public class MapsActivity extends FragmentActivity
         }
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Log.i("hallo", "locationchanged");
-        for(int i = 0; i<markerLocations.size(); i++){
-            int m = (int)location.distanceTo(markerLocations.get(i));
-            if(m<30){
-                Log.i("hallo", "entfernung ist "+m );
-            }
-        }
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
 }

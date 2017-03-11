@@ -9,7 +9,7 @@
     </ListPreference>
     <SwitchPreference android:key = "Service"
         android:title="@string/notification"
-        >
+        android:defaultValue="true">
 
     </SwitchPreference>
 </PreferenceScreen>
