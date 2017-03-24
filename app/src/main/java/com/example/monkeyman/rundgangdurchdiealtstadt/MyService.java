@@ -117,7 +117,6 @@ public class MyService extends Service implements LocationListener {
                 .setColor(Color.RED)
                 .setSmallIcon(R.drawable.cast_ic_notification_0)
                 .setContentTitle(msg)
-                .setContentText("Notification!")
                 .setContentIntent(notificationPendingIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
@@ -130,7 +129,7 @@ public class MyService extends Service implements LocationListener {
         for (int i = 0; i < locations.size(); i++) {
             int m = (int) location.distanceTo(locations.get(i));
             if (m < 30) {
-                sendNotification("hallo entfernung ist " + m);
+                sendNotification("Sehenswürdigkeit in " + m+" Meter");
             }
         }
     }

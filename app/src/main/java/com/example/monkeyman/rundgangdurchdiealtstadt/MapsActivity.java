@@ -172,7 +172,7 @@ public class MapsActivity extends FragmentActivity
         super.onDestroy();
         googleApiClient.disconnect();
         Log.i("hallo", "app destroyed");
-        stopService(intent);
+        //stopService(intent);
     }
 
     @Override
@@ -298,5 +298,4 @@ public class MapsActivity extends FragmentActivity
             }
         }
     }
-
 }
