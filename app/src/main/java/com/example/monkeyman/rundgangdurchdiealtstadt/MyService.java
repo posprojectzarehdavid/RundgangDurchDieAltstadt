@@ -22,14 +22,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by MonkeyMan on 18.01.2017.
  */
 public class MyService extends Service implements LocationListener {
 
-    ArrayList<Location> locations;
+    HashMap<Marker, Sehenswuerdigkeit> locations;
     private LocationManager mLocationManager;
 
     @Override
@@ -59,7 +63,7 @@ public class MyService extends Service implements LocationListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle params = intent.getExtras();
-        locations = (ArrayList<Location>) params.getSerializable("List");
+        locations = (HashMap<Marker, Sehenswuerdigkeit>) params.getSerializable("List");
         Log.i("hallo", "serviceOnstart");
         return super.onStartCommand(intent, flags, startId);
     }
@@ -126,10 +130,16 @@ public class MyService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.i("hallo", "locationchanged");
-        for (int i = 0; i < locations.size(); i++) {
-            int m = (int) location.distanceTo(locations.get(i));
+//        for (int i = 0; i < locations.size(); i++) {
+//            int m = (int) location.distanceTo(locations.get(i));
+//            if (m < 30) {
+//                sendNotification("Sehenswürdigkeit in " + m+" Meter");
+//            }
+//        }
+        for (Marker key : locations.keySet()) {
+            int m = (int) location.distanceTo(locations.get(key).loc);
             if (m < 30) {
-                sendNotification("Sehenswürdigkeit in " + m+" Meter");
+               sendNotification("Sehenswürdigkeit in " + m +" Meter");
             }
         }
     }
