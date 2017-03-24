@@ -103,7 +103,8 @@ public class MapsActivity extends FragmentActivity
 
     private void createServiceIntent() {
         intent = new Intent(this, MyService.class);
-        intent.putExtra("List",markers);
+        intent.putExtra("List",sehenswFromCSV);
+        intent.putExtra("Language",language);
     }
 
 
@@ -230,12 +231,10 @@ public class MapsActivity extends FragmentActivity
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(";");
                 LatLng ll = new LatLng(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
-                Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll);
+                int radius = Integer.parseInt(values[5]);
+                Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll,radius);
                 s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase() + "_d"));
                 s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase() + "_e"));
-                Location temp = new Location(LocationManager.GPS_PROVIDER);
-                temp.setLongitude(Double.parseDouble(values[1]));
-                temp.setLatitude(Double.parseDouble(values[0]));
                 al.add(s);
             }
         } catch (FileNotFoundException e) {

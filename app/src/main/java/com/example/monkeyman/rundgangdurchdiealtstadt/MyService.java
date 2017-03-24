@@ -21,19 +21,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-
-import com.google.android.gms.maps.model.Marker;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Created by MonkeyMan on 18.01.2017.
  */
 public class MyService extends Service implements LocationListener {
 
-    HashMap<Marker, Sehenswuerdigkeit> locations;
+    ArrayList<Sehenswuerdigkeit> sehenswuerdigkeiten;
+    String language="";
     private LocationManager mLocationManager;
 
     @Override
@@ -63,7 +61,8 @@ public class MyService extends Service implements LocationListener {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle params = intent.getExtras();
-        locations = (HashMap<Marker, Sehenswuerdigkeit>) params.getSerializable("List");
+        sehenswuerdigkeiten = (ArrayList<Sehenswuerdigkeit>) params.getSerializable("List");
+        language = params.getString("Language");
         Log.i("hallo", "serviceOnstart");
         return super.onStartCommand(intent, flags, startId);
     }
@@ -97,7 +96,7 @@ public class MyService extends Service implements LocationListener {
     }
 
     // Send a notification
-    private void sendNotification(String msg) {
+    private void sendNotification(Sehenswuerdigkeit s) {
         // Intent to start the main Activity
         Intent notificationIntent = new Intent(getApplicationContext(), MapsActivity.class);
 
@@ -111,16 +110,22 @@ public class MyService extends Service implements LocationListener {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificatioMng.notify(
                 0,
-                createNotification(msg, notificationPendingIntent));
+                createNotification(s, notificationPendingIntent));
     }
 
     // Create a notification
-    private Notification createNotification(String msg, PendingIntent notificationPendingIntent) {
+    private Notification createNotification(Sehenswuerdigkeit s, PendingIntent notificationPendingIntent) {
+        String contentTitle;
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        if(language.equals("English")){
+            contentTitle = s.getNameEnglisch();
+        } else{
+            contentTitle = s.getNameDeutsch();
+        }
         notificationBuilder
                 .setColor(Color.RED)
                 .setSmallIcon(R.drawable.cast_ic_notification_0)
-                .setContentTitle(msg)
+                .setContentTitle(contentTitle)
                 .setContentIntent(notificationPendingIntent)
                 .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND)
                 .setAutoCancel(true);
@@ -130,16 +135,13 @@ public class MyService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         Log.i("hallo", "locationchanged");
-//        for (int i = 0; i < locations.size(); i++) {
-//            int m = (int) location.distanceTo(locations.get(i));
-//            if (m < 30) {
-//                sendNotification("Sehenswürdigkeit in " + m+" Meter");
-//            }
-//        }
-        for (Marker key : locations.keySet()) {
-            int m = (int) location.distanceTo(locations.get(key).loc);
-            if (m < 30) {
-               sendNotification("Sehenswürdigkeit in " + m +" Meter");
+        for (int i = 0; i < sehenswuerdigkeiten.size(); i++) {
+            Sehenswuerdigkeit s = sehenswuerdigkeiten.get(i);
+            int m = (int) location.distanceTo(s.loc);
+            Log.i("Distance", m+"");
+            if (m < s.radius) {
+                Toast.makeText(this, "Radius: " + s.radius+" Distance: "+m, Toast.LENGTH_SHORT).show();
+                sendNotification(s);
             }
         }
     }
