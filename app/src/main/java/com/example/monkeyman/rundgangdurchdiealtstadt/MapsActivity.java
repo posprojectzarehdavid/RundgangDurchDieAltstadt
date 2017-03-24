@@ -57,7 +57,6 @@ public class MapsActivity extends FragmentActivity
     boolean serviceEnabled;
     GoogleMap map;
     private LocationRequest locationRequest;
-    private ArrayList<Location> markerLocations;
     private final int UPDATE_INTERVAL = 1000;
     private final int FASTEST_INTERVAL = 1000;
 
@@ -84,7 +83,6 @@ public class MapsActivity extends FragmentActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         markers = new HashMap<>();
-        markerLocations = new ArrayList<>();
         sehenswFromCSV = getValuesFromCSV();
 
         locationRequest = LocationRequest.create()
@@ -105,7 +103,7 @@ public class MapsActivity extends FragmentActivity
 
     private void createServiceIntent() {
         intent = new Intent(this, MyService.class);
-        intent.putExtra("List",markerLocations);
+        intent.putExtra("List",markers);
     }
 
 
@@ -238,7 +236,6 @@ public class MapsActivity extends FragmentActivity
                 Location temp = new Location(LocationManager.GPS_PROVIDER);
                 temp.setLongitude(Double.parseDouble(values[1]));
                 temp.setLatitude(Double.parseDouble(values[0]));
-                markerLocations.add(temp);
                 al.add(s);
             }
         } catch (FileNotFoundException e) {
