@@ -1,16 +1,12 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.android.gms.ads.formats.NativeAd;
 import com.google.android.gms.maps.model.LatLng;
-
-import java.io.Serializable;
 
 /**
  * Created by MonkeyMan on 14.12.2016.
@@ -19,15 +15,23 @@ public class Sehenswuerdigkeit implements Parcelable{
     String id;
     String nameDeutsch, nameEnglisch;
     LatLng latLng;
+    int radius;
+    Location loc;
 
     String beschreibungDeutsch, beschreibungEnglisch;
     Drawable bild;
 
-    public Sehenswuerdigkeit(String id, String nameDeutsch, String nameEnglisch, LatLng latLng) {
+    public Sehenswuerdigkeit(String id, String nameDeutsch, String nameEnglisch, LatLng latLng, int rad) {
         this.id = id;
         this.nameDeutsch = nameDeutsch;
         this.nameEnglisch = nameEnglisch;
         this.latLng = latLng;
+        Location temp = new Location(LocationManager.GPS_PROVIDER);
+        temp.setLongitude(latLng.longitude);
+        temp.setLatitude(latLng.latitude);
+        this.loc = temp;
+        this.radius = rad;
+
     }
 
     protected Sehenswuerdigkeit(Parcel in) {
@@ -37,8 +41,8 @@ public class Sehenswuerdigkeit implements Parcelable{
         beschreibungDeutsch = in.readString();
         beschreibungEnglisch = in.readString();
         latLng = in.readParcelable(LatLng.class.getClassLoader());
-        //Bitmap bitmap = in.readParcelable(getClass().getClassLoader());
-        //bild = new BitmapDrawable(bitmap);
+        loc = in.readParcelable(Location.class.getClassLoader());
+        radius = in.readInt();
     }
 
     @Override
@@ -49,8 +53,8 @@ public class Sehenswuerdigkeit implements Parcelable{
         dest.writeString(beschreibungDeutsch);
         dest.writeString(beschreibungEnglisch);
         dest.writeParcelable(latLng, flags);
-        //Bitmap bitmap = ((BitmapDrawable) bild).getBitmap();
-        //dest.writeParcelable(bitmap, flags);
+        dest.writeParcelable(loc, flags);
+        dest.writeInt(radius);
     }
 
     public static final Creator<Sehenswuerdigkeit> CREATOR = new Creator<Sehenswuerdigkeit>() {
