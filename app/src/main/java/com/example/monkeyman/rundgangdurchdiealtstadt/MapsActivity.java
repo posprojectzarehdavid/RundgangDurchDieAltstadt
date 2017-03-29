@@ -71,6 +71,10 @@ public class MapsActivity extends FragmentActivity
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
         setContentView(R.layout.activity_main);
+
+        checkPermission();
+        askPermission();
+
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -90,9 +94,6 @@ public class MapsActivity extends FragmentActivity
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL);
-
-        checkPermission();
-        askPermission();
 
         mapFragment.getMapAsync(this);
         serviceEnabled = prefs.getBoolean("Service",true);
