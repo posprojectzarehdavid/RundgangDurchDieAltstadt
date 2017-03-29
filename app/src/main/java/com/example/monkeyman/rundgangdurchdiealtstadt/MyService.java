@@ -71,12 +71,13 @@ public class MyService extends Service implements LocationListener {
         mLocationManager = (LocationManager) getSystemService(Service.LOCATION_SERVICE);
         Criteria crta = new Criteria();
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD) {
-            crta.setAccuracy(Criteria.ACCURACY_FINE);
+            crta.setAccuracy(Criteria.ACCURACY_MEDIUM);
         } else {
             crta.setAccuracy(Criteria.ACCURACY_MEDIUM);
         }
-        crta.setPowerRequirement(Criteria.POWER_LOW);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        crta.setPowerRequirement(Criteria.POWER_HIGH);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -98,10 +99,11 @@ public class MyService extends Service implements LocationListener {
     // Send a notification
     private void sendNotification(Sehenswuerdigkeit s) {
         // Intent to start the main Activity
-        Intent notificationIntent = new Intent(getApplicationContext(), MapsActivity.class);
-
+        Intent notificationIntent = new Intent(getApplicationContext(), Details.class);
+        notificationIntent.putExtra("Sehenswuerdigkeit",s);
+        notificationIntent.putExtra("Sprache",language);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MapsActivity.class);
+        stackBuilder.addParentStack(Details.class);
         stackBuilder.addNextIntent(notificationIntent);
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -122,6 +124,7 @@ public class MyService extends Service implements LocationListener {
         } else{
             contentTitle = s.getNameDeutsch();
         }
+
         notificationBuilder
                 .setColor(Color.RED)
                 .setSmallIcon(R.drawable.cast_ic_notification_0)
@@ -138,7 +141,7 @@ public class MyService extends Service implements LocationListener {
         for (int i = 0; i < sehenswuerdigkeiten.size(); i++) {
             Sehenswuerdigkeit s = sehenswuerdigkeiten.get(i);
             int m = (int) location.distanceTo(s.loc);
-            Log.i("Distance", m+"");
+            Log.i("Distance to"+s.nameDeutsch, m+"");
             if (m < s.radius) {
                 Toast.makeText(this, "Radius: " + s.radius+" Distance: "+m, Toast.LENGTH_SHORT).show();
                 sendNotification(s);
