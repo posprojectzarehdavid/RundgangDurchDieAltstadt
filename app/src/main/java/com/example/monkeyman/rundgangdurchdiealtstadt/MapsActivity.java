@@ -121,7 +121,8 @@ public class MapsActivity extends FragmentActivity
             } else if (val.equals("Deutsch")) {
                 conf.locale = new Locale("de");
             }
-            //Toast.makeText(PrefsActivity.getContext(), R.string.restart, Toast.LENGTH_LONG);
+            Toast.makeText(this, R.string.restart, Toast.LENGTH_LONG).show();
+
             res.updateConfiguration(conf, dm);
 
         } else if (s.equals("Service")) {

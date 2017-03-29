@@ -25,7 +25,5 @@ public class PrefsActivity extends PreferenceActivity
             addPreferencesFromResource(R.xml.prefs);
         }
     }
-    public static Context getContext(){
-        return getContext();
-    }
+
 }
