@@ -113,7 +113,6 @@ public class MapsActivity extends FragmentActivity
         if (s.equals("Sprache")) {
             String val = prefs.getString(s, "");
             language = val;
-            setTitle(R.string.app_name);
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -157,6 +156,7 @@ public class MapsActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         googleApiClient.connect();
+        setTitle(R.string.app_name);
         Log.i("hallo", "apiclient im on resume connected");
     }
 
@@ -201,7 +201,8 @@ public class MapsActivity extends FragmentActivity
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
             m = null;
-            if(language == null || language.equals("English")){
+            if(language == null) language = "English";
+            if(language.equals("English")){
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
             }
             if(language.equals("Deutsch")){
