@@ -201,12 +201,13 @@ public class MapsActivity extends FragmentActivity
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
             m = null;
+            if(language == null || language.equals("English")){
+                m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
+            }
             if(language.equals("Deutsch")){
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
             }
-            if(language.equals("English")){
-                m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
-            }
+
             markers.put(m, s);
         }
     }
