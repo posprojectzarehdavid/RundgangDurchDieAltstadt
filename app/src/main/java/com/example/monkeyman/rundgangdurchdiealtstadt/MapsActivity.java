@@ -82,25 +82,39 @@ public class MapsActivity extends FragmentActivity
                 preferenceChanged(prefs, s);
             }
         };
+        language = prefs.getString("Sprache", "default");
+        /*if(language == null){
+            String systemLanguage = Locale.getDefault().getDisplayLanguage();
+            setDefaultLanguage(systemLanguage);
+            language = prefs.getString("Sprache", systemLanguage);
+        }*/
+
         prefs.registerOnSharedPreferenceChangeListener(listener);
-        language = prefs.getString("Sprache", null);
         st.InitLists();
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         markers = new HashMap<>();
         sehenswFromCSV = getValuesFromCSV();
 
+        serviceEnabled = prefs.getBoolean("Service",true);
+        if(serviceEnabled){
+            createServiceIntent();
+            startService(intent);
+        }
         locationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
                 .setInterval(UPDATE_INTERVAL)
                 .setFastestInterval(FASTEST_INTERVAL);
 
         mapFragment.getMapAsync(this);
-        serviceEnabled = prefs.getBoolean("Service",true);
-        if(serviceEnabled){
-            createServiceIntent();
-            startService(intent);
-        }
+
+    }
+
+    private void setDefaultLanguage(String language){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Sprache", language);
+        editor.commit();
     }
 
     private void createServiceIntent() {
@@ -200,17 +214,16 @@ public class MapsActivity extends FragmentActivity
 
     private void markerSetzen(GoogleMap googleMap) {
         Marker m;
+        //if(language == null) language = "English";
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
             m = null;
-            if(language == null) language = "English";
             if(language.equals("English")){
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
             }
             if(language.equals("Deutsch")){
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
             }
-
             markers.put(m, s);
         }
     }
