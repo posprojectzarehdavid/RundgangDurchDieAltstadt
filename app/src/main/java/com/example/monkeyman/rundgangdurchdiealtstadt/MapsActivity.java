@@ -82,7 +82,7 @@ public class MapsActivity extends FragmentActivity
                 preferenceChanged(prefs, s);
             }
         };
-        language = prefs.getString("Sprache", "default");
+        language = prefs.getString("Sprache", "English");
         /*if(language == null){
             String systemLanguage = Locale.getDefault().getDisplayLanguage();
             setDefaultLanguage(systemLanguage);
@@ -96,7 +96,17 @@ public class MapsActivity extends FragmentActivity
         markers = new HashMap<>();
         sehenswFromCSV = getValuesFromCSV();
 
-        serviceEnabled = prefs.getBoolean("Service",true);
+        if(prefs.contains("Service")){
+            serviceEnabled = prefs.getBoolean("Service",true);
+        }else{
+            Log.i("editor","Hallo");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("Service", true);
+            editor.commit();
+            serviceEnabled = true;
+        }
+
+
         if(serviceEnabled){
             createServiceIntent();
             startService(intent);
@@ -107,7 +117,6 @@ public class MapsActivity extends FragmentActivity
                 .setFastestInterval(FASTEST_INTERVAL);
 
         mapFragment.getMapAsync(this);
-
     }
 
     private void setDefaultLanguage(String language){
@@ -214,15 +223,13 @@ public class MapsActivity extends FragmentActivity
 
     private void markerSetzen(GoogleMap googleMap) {
         Marker m;
-        //if(language == null) language = "English";
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
-            m = null;
-            if(language.equals("English")){
-                m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
-            }
             if(language.equals("Deutsch")){
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
+            }
+            else{
+                m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
             }
             markers.put(m, s);
         }
