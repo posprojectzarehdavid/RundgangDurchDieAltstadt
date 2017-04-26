@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
@@ -43,25 +42,22 @@ import java.util.Locale;
 public class MapsActivity extends FragmentActivity
         implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
 
     CameraPosition camera;
     HashMap<Marker, Sehenswuerdigkeit> markers;
     ArrayList<Sehenswuerdigkeit> sehenswFromCSV;
     GoogleApiClient googleApiClient;
     Location lastLocation;
-    LocationManager locationManager;
     SharedPreferences prefs;
     String language = "";
-
     boolean serviceEnabled;
-    GoogleMap map;
-    private LocationRequest locationRequest;
+    boolean allowPermission = false;
+    LocationRequest locationRequest;
     private final int UPDATE_INTERVAL = 1000;
     private final int FASTEST_INTERVAL = 1000;
 
     Intent intent;
-
     SharedPreferences.OnSharedPreferenceChangeListener listener;
 
     SehenwuerdigkeitenTexte st = new SehenwuerdigkeitenTexte();
@@ -82,12 +78,36 @@ public class MapsActivity extends FragmentActivity
                 preferenceChanged(prefs, s);
             }
         };
-        language = prefs.getString("Sprache", "English");
-        /*if(language == null){
-            String systemLanguage = Locale.getDefault().getDisplayLanguage();
-            setDefaultLanguage(systemLanguage);
-            language = prefs.getString("Sprache", systemLanguage);
-        }*/
+
+        if (prefs.contains("Sprache")) {
+            Log.i("syslang", "prefscontains");
+            language = prefs.getString("Sprache", "English");
+        } else {
+            String systemlanguage = Locale.getDefault().getDisplayLanguage();
+            Log.i("syslang", systemlanguage);
+            SharedPreferences.Editor editor = prefs.edit();
+            if (systemlanguage.equals("Deutsch") || systemlanguage.equals("English")
+                    || systemlanguage.equals("German") || systemlanguage.equals("Englisch")) {
+                Log.i("syslang", "systemlang gesetzt " + systemlanguage);
+                editor.putString("Sprache", systemlanguage);
+                editor.commit();
+                language = prefs.getString("Sprache", systemlanguage);
+            } else {
+                editor.putString("Sprache", "English");
+                Log.i("syslang", "defaultsprache gesetzt");
+                editor.commit();
+                language = prefs.getString("Sprache", "English");
+            }
+        }
+
+        if (prefs.contains("Service")) {
+            serviceEnabled = prefs.getBoolean("Service", true);
+        } else {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("Service", true);
+            editor.commit();
+            serviceEnabled = true;
+        }
 
         prefs.registerOnSharedPreferenceChangeListener(listener);
         st.InitLists();
@@ -96,18 +116,7 @@ public class MapsActivity extends FragmentActivity
         markers = new HashMap<>();
         sehenswFromCSV = getValuesFromCSV();
 
-        if(prefs.contains("Service")){
-            serviceEnabled = prefs.getBoolean("Service",true);
-        }else{
-            Log.i("editor","Hallo");
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("Service", true);
-            editor.commit();
-            serviceEnabled = true;
-        }
-
-
-        if(serviceEnabled){
+        if (serviceEnabled) {
             createServiceIntent();
             startService(intent);
         }
@@ -119,19 +128,11 @@ public class MapsActivity extends FragmentActivity
         mapFragment.getMapAsync(this);
     }
 
-    private void setDefaultLanguage(String language){
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("Sprache", language);
-        editor.commit();
-    }
-
     private void createServiceIntent() {
         intent = new Intent(this, MyService.class);
-        intent.putExtra("List",sehenswFromCSV);
-        intent.putExtra("Language",language);
+        intent.putExtra("List", sehenswFromCSV);
+        intent.putExtra("Language", language);
     }
-
 
     private void preferenceChanged(SharedPreferences prefs, String s) {
         if (s.equals("Sprache")) {
@@ -152,10 +153,10 @@ public class MapsActivity extends FragmentActivity
         } else if (s.equals("Service")) {
             boolean service = prefs.getBoolean(s, false);
             serviceEnabled = service;
-            if(serviceEnabled){
+            if (serviceEnabled) {
                 createServiceIntent();
                 startService(intent);
-            }else{
+            } else {
                 stopService(intent);
             }
         }
@@ -181,7 +182,6 @@ public class MapsActivity extends FragmentActivity
     protected void onResume() {
         super.onResume();
         googleApiClient.connect();
-        setTitle(R.string.app_name);
         Log.i("hallo", "apiclient im on resume connected");
     }
 
@@ -225,10 +225,9 @@ public class MapsActivity extends FragmentActivity
         Marker m;
         for (int i = 0; i < sehenswFromCSV.size(); i++) {
             Sehenswuerdigkeit s = sehenswFromCSV.get(i);
-            if(language.equals("Deutsch")){
+            if (language.equals("Deutsch")) {
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameDeutsch()));
-            }
-            else{
+            } else {
                 m = googleMap.addMarker(new MarkerOptions().position(s.latLng).title(s.getNameEnglisch()));
             }
             markers.put(m, s);
@@ -244,10 +243,34 @@ public class MapsActivity extends FragmentActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        //AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getApplicationContext());
         switch (id) {
             case R.id.optionen:
                 startActivity(new Intent(this, PrefsActivity.class));
                 return true;
+            case R.id.shutdown:
+                googleApiClient.disconnect();
+                if (serviceEnabled) {
+                    stopService(intent);
+                }
+                System.exit(0);
+                /*dlgAlert.setMessage(R.string.message);
+                dlgAlert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        googleApiClient.disconnect();
+                        stopService(intent);
+                        System.exit(0);
+                    }
+                });
+                dlgAlert.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                dlgAlert.setCancelable(true);
+                dlgAlert.create().show();*/
             default:
                 return false;
         }
@@ -263,7 +286,7 @@ public class MapsActivity extends FragmentActivity
                 String[] values = line.split(";");
                 LatLng ll = new LatLng(Double.parseDouble(values[0]), Double.parseDouble(values[1]));
                 int radius = Integer.parseInt(values[5]);
-                Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll,radius);
+                Sehenswuerdigkeit s = new Sehenswuerdigkeit(values[4], values[2], values[3], ll, radius);
                 s.setBeschreibungDeutsch(st.deutscheTexte.get(values[4].toLowerCase() + "_d"));
                 s.setBeschreibungEnglisch(st.englischeTexte.get(values[4].toLowerCase() + "_e"));
                 al.add(s);
@@ -294,7 +317,9 @@ public class MapsActivity extends FragmentActivity
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
 
         }
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+        if(!allowPermission){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+        }
     }
 
     @Override
@@ -312,14 +337,11 @@ public class MapsActivity extends FragmentActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case 100: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Permission granted
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, R.string.allow, Toast.LENGTH_LONG).show();
-                    //getLastKnownLocation();
+                    allowPermission = true;
                 } else {
-                    Toast.makeText(this, "You did not allow to access your current location", Toast.LENGTH_LONG).show();
-                    MapsActivity.this.closeContextMenu();
+                    Toast.makeText(this, R.string.deny, Toast.LENGTH_LONG).show();
                 }
                 break;
             }

@@ -1,6 +1,5 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Parcel;
@@ -17,9 +16,7 @@ public class Sehenswuerdigkeit implements Parcelable{
     LatLng latLng;
     int radius;
     Location loc;
-
     String beschreibungDeutsch, beschreibungEnglisch;
-    Drawable bild;
 
     public Sehenswuerdigkeit(String id, String nameDeutsch, String nameEnglisch, LatLng latLng, int rad) {
         this.id = id;
@@ -31,7 +28,6 @@ public class Sehenswuerdigkeit implements Parcelable{
         temp.setLatitude(latLng.latitude);
         this.loc = temp;
         this.radius = rad;
-
     }
 
     protected Sehenswuerdigkeit(Parcel in) {
@@ -69,14 +65,6 @@ public class Sehenswuerdigkeit implements Parcelable{
         }
     };
 
-    public Drawable getBild() {
-        return bild;
-    }
-
-    public void setBild(Drawable bild) {
-        this.bild = bild;
-    }
-
     public String getId() {
         return id;
     }
@@ -89,16 +77,8 @@ public class Sehenswuerdigkeit implements Parcelable{
         return nameDeutsch;
     }
 
-    public void setNameDeutsch(String nameDeutsch) {
-        this.nameDeutsch = nameDeutsch;
-    }
-
     public String getNameEnglisch() {
         return nameEnglisch;
-    }
-
-    public void setNameEnglisch(String nameEnglisch) {
-        this.nameEnglisch = nameEnglisch;
     }
 
     public LatLng getLatLng() {
@@ -129,6 +109,4 @@ public class Sehenswuerdigkeit implements Parcelable{
     public int describeContents() {
         return 0;
     }
-
-
 }

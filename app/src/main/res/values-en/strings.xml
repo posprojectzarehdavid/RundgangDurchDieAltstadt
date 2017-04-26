@@ -4,11 +4,10 @@
     <string name="google_maps_key">AIzaSyDUKvElsnOVLhAPyJ7ghX81m7lyeX2D800</string>
     <string name="title_activity_maps">Map</string>
     <string name="allow">Thanks for the permission!</string>
+    <string name="deny">Please allow the permission to enable the notificationservice!</string>
     <string name="lang">Language</string>
     <string name="options">Options</string>
+    <string name="shutdown">Exit</string>
+    <string name="notification">Notification</string>
     <string name="restart">Please restart the application!</string>
-    <string name="notification">Notifications</string>
-
-
-
 </resources>

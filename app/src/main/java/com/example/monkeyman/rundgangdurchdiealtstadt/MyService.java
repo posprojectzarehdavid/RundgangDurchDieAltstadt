@@ -21,7 +21,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -108,11 +107,8 @@ public class MyService extends Service implements LocationListener {
         PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Creating and sending Notification
-        NotificationManager notificatioMng =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificatioMng.notify(
-                0,
-                createNotification(s, notificationPendingIntent));
+        NotificationManager notificatioMng = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificatioMng.notify(0,createNotification(s, notificationPendingIntent));
     }
 
     // Create a notification
@@ -141,9 +137,11 @@ public class MyService extends Service implements LocationListener {
         for (int i = 0; i < sehenswuerdigkeiten.size(); i++) {
             Sehenswuerdigkeit s = sehenswuerdigkeiten.get(i);
             int m = (int) location.distanceTo(s.loc);
+            if(s.id.equals("s21") && m<40 && m>20){
+                sendNotification(sehenswuerdigkeiten.get(13));
+            }
             Log.i("Distance to"+s.nameDeutsch, m+"");
             if (m < s.radius) {
-                Toast.makeText(this, "Radius: " + s.radius+" Distance: "+m, Toast.LENGTH_SHORT).show();
                 sendNotification(s);
             }
         }

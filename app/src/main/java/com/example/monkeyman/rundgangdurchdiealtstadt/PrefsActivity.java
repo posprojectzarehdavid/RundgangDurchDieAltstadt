@@ -1,6 +1,5 @@
 package com.example.monkeyman.rundgangdurchdiealtstadt;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
@@ -25,5 +24,4 @@ public class PrefsActivity extends PreferenceActivity
             addPreferencesFromResource(R.xml.prefs);
         }
     }
-
 }

@@ -3,4 +3,7 @@
 <item android:id="@+id/optionen"
        android:title="@string/options">
 </item>
+    <item android:id="@+id/shutdown"
+        android:title="@string/shutdown">
+    </item>
 </menu>

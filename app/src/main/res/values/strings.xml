@@ -1,12 +1,11 @@
- <resources>
+<resources>
     <string name="app_name">Rundgang durch die Altstadt</string>
     <string name="title_activity_maps">Map</string>
     <string name="allow">Danke für die Erlaubnis!</string>
-     <string name="lang">Sprache</string>
-     <string name="options">Optionen</string>
-     <string name="restart">Bitte Applikation neu starten!</string>
-     <string name="notification">Benachrichtigung</string>
-
-
-
- </resources>
+    <string name="deny">Bitte Berechtigung erlauben, um die Benachrichtigungsfunktion aktivieren zu können!</string>
+    <string name="lang">Sprache</string>
+    <string name="options">Optionen</string>
+    <string name="shutdown">Beenden</string>
+    <string name="notification">Benachrichtigung</string>
+    <string name="restart">Bitte Applikation neu starten!</string>
+</resources>
