@@ -254,6 +254,10 @@ public class MapsActivity extends FragmentActivity
                     stopService(intent);
                 }
                 System.exit(0);
+            case R.id.historyLabel:
+                Intent intent = new Intent(getApplicationContext(), History.class);
+                intent.putExtra("Sprache", language);
+                startActivity(intent);
                 /*dlgAlert.setMessage(R.string.message);
                 dlgAlert.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override

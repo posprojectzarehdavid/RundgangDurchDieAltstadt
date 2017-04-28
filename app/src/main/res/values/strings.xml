@@ -8,4 +8,44 @@
     <string name="shutdown">Beenden</string>
     <string name="notification">Benachrichtigung</string>
     <string name="restart">Bitte Applikation neu starten!</string>
+    <string name="historyText">
+            Von Anfang an bestimmte der Inn das Schicksal und die Entwicklung
+            der bayerisch – österreichischen Grenzstadt. Im Jahre 804 ist der Ort
+            erstmals als landwirtschaftliche Siedlung „Scardinga“ in einer Passauer
+            Urkunde erwähnt.
+            Schifffahrt und Handel (zuerst nur Salz, dann auch Getreide, Wein, Erze,
+            Glas, Vieh, Holz und Tuchwaren) machten Schärding im Mittelalter
+            zu einer wohlhabenden Stadt.
+            Nach den Grafen von Vornbach und Andechs und den Babenbergern
+            wechselten Wittelsbacher und Habsburger als Herren der befestigten
+            Grenzstadt. Schärding wurde zum Spielball (oder auch Zankapfel) zwischen
+            den beiden Nachbarländern, einmal vererbt, dann verpfändet,
+            getauscht und erkämpft. Zirka 500 Jahre lang gehörte Schärding zu
+            Bayern. Im 15. Jahrhundert ließ Herzog Ludwig VII. von Bayern- Ingolstadt,
+            der „Gebartete“ die Stadt mit Gräben, Türmen und Toren befestigen.
+            Im Mittelalter entwickelte sich die Stadt zu wirtschaftlicher Blüte:
+            intensive Schafzucht rundum die Stadt, Flachs- und Hanfanbau machten
+            das textile Gewerbe mit Leinenwebern und Lodenwirkern, Gerbern und
+            Färbern zum wirtschaftlichen Schwerpunkt der Stadt. Die Tuchschere
+            im Stadtwappen ist Zeugnis dafür. Auch die Integration der Stadt in die
+            florierende Landwirtschaft des Rottales brachte wirtschaftliche Vorteile.
+            Durch Kriege und Brände wurde der Aufschwung mehrmals gestoppt:
+            Im Spanischen Erbfolgekrieg 1703 zerstörten die österreichischen und
+            dänischen Truppen in dreitägiger Belagerung 50 Häuser der Stadt und
+            die gotische Pfarrkirche.
+            1724 wurden 30 Häuser im Stadtzentrum und auch die Burg durch einen
+            bei der Fronleichnamsprozession entstandenen Brand vernichtet.
+            Die größten Verheerungen aber kamen 1809, als die napoleonischen
+            Truppen die Stadt in Schutt und Asche legten und plünderten.
+            158 Häuser (auch Kirchen, Rathaus und Bürgerspital) in der Innenstadt
+            wurden vernichtet. Dies bedeutete auch den wirtschaftlichen Niedergang,
+            von dem sich Schärding trotz vieler Bemühungen kaum noch voll
+            erholen konnte.
+            In den letzten Kriegstagen 1945 beschossen die Amerikaner die Stadt vom bayerischen Ufer aus, wobei einige Häuser total zerstört und über
+            100 beschädigt wurden.
+            1966 wurden 50 Altstadthäuser unter Denkmalschutz gestellt, um die
+            alte Bausubstanz im Stadtkern zu erhalten. Seither bemüht man sich
+            sehr um die Pflege des historischen Stadtbildes.
+    </string>
+    <string name="historyLabel">Geschichte Schärdings</string>
 </resources>

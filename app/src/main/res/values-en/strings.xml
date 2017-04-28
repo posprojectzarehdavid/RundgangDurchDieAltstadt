@@ -10,4 +10,49 @@
     <string name="shutdown">Exit</string>
     <string name="notification">Notification</string>
     <string name="restart">Please restart the application!</string>
+    <string name="historyText">
+        Right from its early beginnings, the River Inn has determined the fate
+        and growth of this border town which sits between Bavaria and Austria.
+        It was first mentioned in a Passau charter in the year 804 as an agricultural
+        settlement known as “Scardinga”. Shipping and commerce - first
+        trading in salt, then grain, wine, ores, glass, cattle, wood and textiles
+        - made the Schärding of the Middle Ages into a prosperous town. Following
+        on from the Dukes of Vornbach and Andechs and the Babenbergers,
+        the fortified border town was ruled alternately by the Wittelsbach
+        and Habsburg dynasties. Schärding had become a football – or rather a
+        bone of contention - that was kicked between the two neighboring lands,
+        originally handed-down, then pawned, bartered and fought over.
+        For around 500 years, Schärding belonged to Bavaria. In the 15th century,
+        Louis VII “the Bearded”, Duke of Bavaria- Ingolstadt, fortified the
+        town with moats, towers and gates. It was during the Middle Ages that
+        the town grew and enjoyed its economic heyday. Sheep were farmed
+        intensively all around the town and flax and hemp were cultivated, all
+        of which led to the textile trade – with its linen weavers and loden wool
+        workers, tanners and dyers – becoming the economic engine of the
+        town. The cloth shears in the town’s coat-of-arms bear witness to this.
+        The integration of the town into the flourishing agricultural economy of
+        the Rott Valley also brought economic benefits.
+        However, the upswing was interrupted several times by wars and fires.
+        In the Spanish War of Succession in 1703, Austrian and Danish troops
+        destroyed 50 houses in the town, as well as the gothic parish church,
+        during an occupation which lasted three days. In 1724, 30 houses in the
+        center of the town and the castle were destroyed by a fire which took
+        hold during a procession to celebrate the Feast of Corpus Christi.
+        However, the greatest devastation took place in 1809, as Napoleonic
+        troops plundered the town and laid it to waste. 158 houses, as well as
+        churches, the town hall and the Bürgerspital hospital, were destroyed
+        in the town center. This also meant that Schärding fell into economic
+        decline, from which the town – despite the huge efforts made - never
+        quite recovered.
+        In 1945, in the last days of the Second World War, the town came under
+        attack from American forces, firing from the Bavarian bank of the Inn
+        and totally destroying several houses and damaging more than 100. In
+        the meantime, there have been strenuous efforts to preserve the historic
+        character of the town. In 1966, 50 houses in the ancient Altstadt were
+        declared to be historic monuments, in order to maintain the old architectural
+        fabric at the heart of the town. In the meantime, these efforts have
+        since been rewarded with the admiration and appreciation by the town’s
+        many visitors.
+    </string>
+    <string name="historyLabel">History of Schärding</string>
 </resources>
